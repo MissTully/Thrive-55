@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thrive 55+ — Learning App Prototype</title>
+<style>
+  :root{
+    --teal:#187878; --teal-d:#0F6E56; --teal-t:#E1F5EE;
+    --navy:#1B3A5B; --coral:#E38E76; --coral-l:#FAECE7; --coral-d:#993C1D;
+    --ink:#20302f; --muted:#5f6d6a; --line:#e2e6e4; --bg:#f4f6f5; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:940px;margin:0 auto;padding:0 16px}
+  .logo{font-family:Georgia,"Times New Roman",serif;font-weight:700;color:var(--navy);font-size:20px;letter-spacing:.2px}
+  .logo b{color:var(--teal);font-weight:700}
+  button{font-family:inherit;cursor:pointer}
+  .btn{background:var(--teal);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:15px;font-weight:600}
+  .btn:hover{background:#146a6a}
+  .btn.ghost{background:transparent;color:var(--teal);border:1px solid var(--teal)}
+  .btn.ghost:hover{background:var(--teal-t)}
+  .btn.coral{background:var(--coral)}
+  .btn.coral:hover{background:#d67a60}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+  .muted{color:var(--muted)}
+  .appbar{background:#fff;border-bottom:1px solid var(--line)}
+  .appbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .nav{display:flex;gap:18px;align-items:center;font-size:14px;color:var(--muted)}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--teal-t);color:var(--teal-d);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .progressbar{height:6px;background:#e9edeb;border-radius:6px;overflow:hidden}
+  .progressbar>span{display:block;height:100%;background:var(--teal);width:0}
+  h1{font-size:26px;color:var(--navy);margin:0 0 6px}
+  h2{font-size:19px;color:var(--navy);margin:0 0 6px}
+  input[type=text],input[type=email]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit}
+  input[type=range]{width:100%}
+  a.link{color:var(--muted);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:8px;padding:6px 0}
+  a.link:hover{color:var(--teal)}
+  .fadein{animation:fi .35s ease}
+  @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const S = {
+  screen:"welcome",
+  name:"Sue's student",
+  initials:"KR",
+  pct:0,
+  gatesDone:{strain:false,strengths:false,next:false},
+  strain:{Body:6,Interruption:5,Change:4},
+  strengths:["","","","",""],
+  nextStep:null,
+  m1:0, m2locked:true
+};
+
+const STEPS = [
+  {p:0,  ch:"Welcome", title:"You are not done with nursing", sub:"What you'll leave with: a way to start, not a finished decision."},
+  {p:14, ch:"The method", title:"Name the strain · Capture your value · Investigate your options", sub:"The whole map, before the details."},
+  {p:25, ch:"Strain", title:"Score your three areas, 1–10", sub:"Body load · Interruption load · Change load", gate:"strain"},
+  {p:42, ch:"Value", title:"Your experience is not ordinary", sub:"You read the room, the patient, the unit, the shift."},
+  {p:55, ch:"Value", title:"Five strengths you keep dismissing", sub:"Name what you do well.", gate:"strengths"},
+  {p:70, ch:"Options", title:"Reconnaissance turns fear into information", sub:"Study the work · Ask three people · Compare."},
+  {p:90, ch:"Your step", title:"Choose one informed step", sub:"You don't have to solve your whole career today.", gate:"next"},
+  {p:100,ch:"Handoff", title:"Career and money belong together", sub:"Next: the financial side, with Alyson."}
+];
+const NEXT_OPTIONS = ["Score my three strain areas","Set up one job alert","Read five job postings (no applying)","Talk to one person this week","List five strengths I keep dismissing"];
+
+let timer=null;
+const app=()=>document.getElementById("app");
+function esc(s){return (s||"").replace(/</g,"&lt;")}
+
+function appbar(showNav){
+  return `<div class="appbar"><div class="wrap">
+    <span class="logo">Thrive <b>55+</b></span>
+    ${showNav?`<div class="nav">
+      <span style="cursor:pointer" onclick="go('dashboard')">My courses</span>
+      <span style="cursor:pointer" onclick="go('workbook')">My workbook</span>
+      <span class="avatar">${S.initials}</span></div>`:`<span class="muted" style="font-size:13px">Nurses 55+ · Career &amp; Finance</span>`}
+  </div></div>`;
+}
+
+// ---------- WELCOME / ENROLL ----------
+function welcome(){
+  return appbar(false)+`<div class="wrap fadein" style="padding:46px 16px;max-width:620px">
+    <div class="pill" style="background:var(--coral-l);color:var(--coral-d)">Self-paced · Free workbook included</div>
+    <h1 style="font-size:32px;margin-top:14px">The Thrive 55+ Career Direction Method</h1>
+    <p class="muted" style="font-size:17px">A short, practical class for experienced nurses deciding what comes next — without treating you as less than.</p>
+    <div class="card" style="padding:22px;margin-top:20px">
+      <h2>Create your free account</h2>
+      <p class="muted" style="font-size:14px;margin-top:0">Enroll to watch the class, save your workbook answers, and download your materials.</p>
+      <label class="muted" style="font-size:13px">Your name</label>
+      <input id="f_name" type="text" placeholder="First name" value="Karen">
+      <div style="height:10px"></div>
+      <label class="muted" style="font-size:13px">Email</label>
+      <input id="f_email" type="email" placeholder="you@email.com" value="karen@email.com">
+      <div style="height:16px"></div>
+      <button class="btn" style="width:100%" onclick="enroll()">Enroll &amp; start course</button>
+      <p class="muted" style="text-align:center;font-size:12px;margin-bottom:0">No card required · This is a clickable prototype</p>
+    </div>
+  </div>`;
+}
+function enroll(){
+  const n=(document.getElementById("f_name").value||"Karen").trim();
+  S.name=n; S.initials=(n[0]||"K").toUpperCase()+"R";
+  go("dashboard");
+}
+
+// ---------- DASHBOARD ----------
+function dashboard(){
+  const m1done=S.m1>=100;
+  return appbar(true)+`<div class="wrap fadein" style="padding:30px 16px">
+    <h1>Welcome, ${esc(S.name)}</h1>
+    <p class="muted">Your course has two short modules. Finish one to unlock the next.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px">
+      ${moduleCard(1,"Career Direction","Sue Adair, BSN, RN","Name the strain, capture your value, investigate your options.",S.m1,false,m1done)}
+      ${moduleCard(2,"Financial Readiness","Alyson","What to know about income, benefits, and timing before a change.",S.m2locked?0:0,S.m2locked,false)}
+    </div>
+    <div class="card" style="padding:18px;margin-top:16px">
+      <h2 style="font-size:16px">Your materials</h2>
+      <a class="link" href="javascript:alert('Prototype: this would download the branded PDF workbook.')">⬇  Career Direction Workbook (PDF)</a>
+      <a class="link" href="javascript:alert('Prototype: this would open your digital book.')">📖  Your digital book</a>
+      <a class="link" href="javascript:alert('Prototype: webinar sign-up.')">🎥  Live Q&amp;A webinar — register</a>
+    </div>
+  </div>`;
+}
+function moduleCard(num,title,who,desc,pct,locked,done){
+  return `<div class="card" style="padding:18px;position:relative;${locked?'opacity:.7':''}">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span class="pill" style="background:var(--teal-t);color:var(--teal-d)">Module ${num}</span>
+      ${done?'<span class="pill" style="background:#E1F5EE;color:var(--teal-d)">✓ Complete</span>':locked?'<span class="pill muted" style="background:#eef0ef">🔒 Locked</span>':''}
+    </div>
+    <h2 style="margin-top:12px">${title}</h2>
+    <p class="muted" style="font-size:13px;margin:0">${who}</p>
+    <p style="font-size:14px">${desc}</p>
+    <div class="progressbar"><span style="width:${pct}%"></span></div>
+    <div style="height:12px"></div>
+    ${locked
+      ? `<button class="btn" disabled style="width:100%">Finish Module 1 first</button>`
+      : `<button class="btn ${done?'ghost':''}" style="width:100%" onclick="startModule(${num})">${done?'Review module':pct>0?'Resume module':'Start module'}</button>`}
+  </div>`;
+}
+
+// ---------- MODULE PLAYER ----------
+function startModule(num){
+  if(num===2){ alert("Prototype: Module 2 (Financial) would play here, built from the same template."); return; }
+  S.pct=S.pct||0; go("module");
+}
+function moduleScreen(){
+  const cur=currentStep();
+  return appbar(true)+`<div class="wrap fadein" style="padding:18px 16px 40px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div><strong style="color:var(--navy)">Module 1 · Career Direction</strong> <span class="muted" style="font-size:13px">— Sue Adair, BSN, RN</span></div>
+      <span class="muted" style="font-size:13px">${Math.round(S.pct)}% complete</span>
+    </div>
+    <div class="progressbar" style="margin-bottom:16px"><span id="mprog" style="width:${S.pct}%"></span></div>
+    <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:16px" id="mgrid">
+      <div>
+        <div class="card" id="stage" style="padding:0;overflow:hidden">${stageHTML(cur)}</div>
+        <div class="card" style="padding:14px;margin-top:14px">
+          <div class="muted" style="font-size:12px;margin-bottom:6px">Chapters</div>
+          <div id="chapters">${chaptersHTML()}</div>
+        </div>
+      </div>
+      <div class="card" id="panel" style="padding:16px;align-self:start">${panelHTML(cur)}</div>
+    </div>
+  </div>`;
+}
+function currentStep(){
+  let c=STEPS[0];
+  for(const s of STEPS){ if(S.pct>=s.p) c=s; }
+  return c;
+}
+function stageHTML(step){
+  const gateActive = step.gate && !S.gatesDone[step.gate];
+  return `<div style="background:${gateActive?'#0F6E56':'#187878'};color:#fff;padding:20px 18px;min-height:172px;display:flex;flex-direction:column;justify-content:space-between">
+    <div style="min-height:26px">${gateActive?`<span class="pill" style="background:var(--coral);color:#4A1B0C">⏸ paused — apply now</span>`:`<span class="pill" style="background:rgba(255,255,255,.16);color:#E1F5EE">▶ playing</span>`}</div>
+    <div>
+      <div style="font-size:11px;letter-spacing:.09em;color:#9FE1CB;margin-bottom:5px;text-transform:uppercase">${step.ch}</div>
+      <div style="font-size:21px;font-weight:600;line-height:1.3">${step.title}</div>
+      <div style="font-size:14px;color:#E1F5EE;margin-top:5px">${step.sub}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#9FE1CB;margin-top:8px">
+      <button onclick="togglePlay()" id="playbtn" style="background:rgba(255,255,255,.18);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-weight:600">${timer?'❚❚ Pause':'▶ Play'}</button>
+      <span style="flex:1;height:4px;background:rgba(255,255,255,.22);border-radius:3px;position:relative"><span style="position:absolute;left:0;top:0;height:100%;width:${S.pct}%;background:var(--coral);border-radius:3px"></span></span>
+      <span>${mmss(S.pct)}</span>
+    </div>
+  </div>`;
+}
+function mmss(pct){const total=930;const s=Math.round(total*pct/100);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function chaptersHTML(){
+  const cur=currentStep();
+  const marks=[["0:00","Welcome",0],["2:10","The method",14],["3:50","Strain — score",25],["6:30","Value",42],["8:30","Five strengths",55],["10:50","Options",70],["13:50","Your step",90]];
+  return marks.map(m=>{
+    const active=Math.abs(m[2]-cur.p)<1;
+    return `<div onclick="seek(${m[2]})" style="display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:8px;margin-bottom:2px;cursor:pointer;font-size:13px;${active?'background:var(--teal-t)':''}">
+      <span class="muted" style="min-width:34px">${m[0]}</span>
+      <span style="flex:1;color:${active?'var(--teal-d)':'var(--muted)'};font-weight:${active?600:400}">${m[1]}</span>
+      <span style="color:${active?'var(--teal)':'#c4ccc9'}">${S.pct>m[2]+1?'✓':active?'▶':'○'}</span>
+    </div>`;
+  }).join("");
+}
+function panelHTML(step){
+  if(step.gate==="strain" && !S.gatesDone.strain) return strainPanel();
+  if(step.gate==="strengths" && !S.gatesDone.strengths) return strengthsPanel();
+  if(step.gate==="next" && !S.gatesDone.next) return nextPanel();
+  // default follow-along
+  return `<div style="display:flex;align-items:center;gap:6px;color:var(--navy);font-weight:600;font-size:14px"><span style="color:var(--teal)">▤</span> Your workbook</div>
+    <p class="muted" style="font-size:13px">Play the class. It will pause on its own at three moments and open a step for you to do here — your answers save automatically.</p>
+    <div style="border-top:1px solid var(--line);margin:10px 0;padding-top:10px">
+      ${miniStatus()}
+    </div>
+    <a class="link" href="javascript:alert('Prototype: downloads the PDF workbook.')">⬇  Full workbook (PDF)</a>
+    <a class="link" href="javascript:alert('Prototype: opens the digital book.')">📖  Your digital book</a>`;
+}
+function miniStatus(){
+  const row=(label,done)=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0"><span class="muted">${label}</span><span style="color:${done?'var(--teal)':'#c4ccc9'};font-weight:600">${done?'✓ saved':'—'}</span></div>`;
+  return row("Strain scores",S.gatesDone.strain)+row("Five strengths",S.gatesDone.strengths)+row("Your next step",S.gatesDone.next);
+}
+function strainPanel(){
+  const rows=Object.keys(S.strain).map(k=>`
+    <div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px"><span class="muted">${k} load</span><b style="color:var(--teal)" id="sv_${k}">${S.strain[k]}</b></div>
+      <input type="range" min="1" max="10" value="${S.strain[k]}" oninput="S.strain['${k}']=+this.value;document.getElementById('sv_${k}').textContent=this.value;updHigh()">
+    </div>`).join("");
+  return `<div style="display:flex;align-items:center;gap:6px;color:var(--navy);font-weight:600;font-size:14px"><span style="color:var(--coral)">✎</span> Step 1 · Score your strain</div>
+    <p class="muted" style="font-size:12px;margin-top:2px">Drag each to where it really sits today.</p>
+    ${rows}
+    <div id="highhint" style="font-size:12px;color:var(--teal-d);background:var(--teal-t);border-radius:8px;padding:8px 10px;margin:4px 0 12px"></div>
+    <button class="btn coral" style="width:100%" onclick="saveGate('strain')">Save &amp; resume ▶</button>`;
+}
+function strengthsPanel(){
+  const rows=S.strengths.map((v,i)=>`<input type="text" style="margin-bottom:7px" placeholder="Strength ${i+1} (e.g. calm under pressure)" value="${esc(v)}" oninput="S.strengths[${i}]=this.value">`).join("");
+  return `<div style="display:flex;align-items:center;gap:6px;color:var(--navy);font-weight:600;font-size:14px"><span style="color:var(--coral)">✎</span> Step 2 · Five strengths</div>
+    <p class="muted" style="font-size:12px;margin-top:2px">Name five you keep dismissing because they feel ordinary.</p>
+    ${rows}
+    <button class="btn coral" style="width:100%;margin-top:4px" onclick="saveGate('strengths')">Save &amp; resume ▶</button>`;
+}
+function nextPanel(){
+  const opts=NEXT_OPTIONS.map((o,i)=>`<label style="display:flex;gap:9px;align-items:flex-start;padding:8px;border:1px solid ${S.nextStep===i?'var(--teal)':'var(--line)'};border-radius:8px;margin-bottom:7px;cursor:pointer;background:${S.nextStep===i?'var(--teal-t)':'#fff'}">
+    <input type="radio" name="nx" ${S.nextStep===i?'checked':''} onchange="S.nextStep=${i};render()" style="margin-top:3px">
+    <span style="font-size:13px">${o}</span></label>`).join("");
+  return `<div style="display:flex;align-items:center;gap:6px;color:var(--navy);font-weight:600;font-size:14px"><span style="color:var(--coral)">✎</span> Step 3 · One informed step</div>
+    <p class="muted" style="font-size:12px;margin-top:2px">Pick just one. That's how career direction begins.</p>
+    ${opts}
+    <button class="btn coral" style="width:100%" onclick="saveGate('next')" ${S.nextStep===null?'disabled':''}>Commit &amp; finish ▶</button>`;
+}
+function updHigh(){
+  const e=document.getElementById("highhint"); if(!e)return;
+  const k=Object.keys(S.strain).reduce((a,b)=>S.strain[a]>=S.strain[b]?a:b);
+  e.innerHTML=`→ Highest: <b>${k} load (${S.strain[k]})</b> — start your search here.`;
+}
+function saveGate(g){ S.gatesDone[g]=true; render(); setTimeout(()=>{ if(S.pct>=100){finishModule();} else {play();} },250); }
+
+// playback engine
+function togglePlay(){ timer?pause():play(); }
+function play(){
+  if(timer) return;
+  const btn=document.getElementById("playbtn"); if(btn){btn.textContent="❚❚ Pause";}
+  timer=setInterval(()=>{
+    // stop at next uncompleted gate
+    const gate=STEPS.find(s=>s.gate && !S.gatesDone[s.gate] && s.p>S.pct-0.01 && s.p<=S.pct+1.6);
+    S.pct=Math.min(100,S.pct+1.6);
+    S.m1=Math.max(S.m1,Math.round(S.pct));
+    const g2=STEPS.find(s=>s.gate && !S.gatesDone[s.gate] && Math.abs(s.p-S.pct)<1.6 && S.pct>=s.p);
+    if(g2){ S.pct=g2.p; pause(); render(); return; }
+    if(S.pct>=100){ pause(); render(); return; }
+    render();
+  },140);
+}
+function pause(){ if(timer){clearInterval(timer);timer=null;} const btn=document.getElementById("playbtn"); if(btn)btn.textContent="▶ Play"; }
+function seek(p){ pause(); const gate=STEPS.find(s=>s.gate&&!S.gatesDone[s.gate]); if(gate&&p>gate.p){ p=gate.p; } S.pct=p; S.m1=Math.max(S.m1,Math.round(p)); render(); }
+
+// ---------- COMPLETE ----------
+function finishModule(){ pause(); S.m1=100; S.m2locked=false; go("complete"); }
+function complete(){
+  const k=Object.keys(S.strain).reduce((a,b)=>S.strain[a]>=S.strain[b]?a:b);
+  const sc=S.strengths.filter(x=>x.trim()).length;
+  return appbar(true)+`<div class="wrap fadein" style="padding:36px 16px;max-width:640px">
+    <div class="pill" style="background:var(--teal-t);color:var(--teal-d)">✓ Module 1 complete</div>
+    <h1 style="margin-top:12px">You have a way to start.</h1>
+    <p class="muted">Here's what you built while you watched — saved to your workbook.</p>
+    <div class="card" style="padding:18px;margin-top:8px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center">
+        <div><div style="font-size:22px;font-weight:700;color:var(--teal)">${k}</div><div class="muted" style="font-size:12px">highest strain (${S.strain[k]})</div></div>
+        <div><div style="font-size:22px;font-weight:700;color:var(--teal)">${sc}</div><div class="muted" style="font-size:12px">strengths named</div></div>
+        <div><div style="font-size:22px;font-weight:700;color:var(--teal)">1</div><div class="muted" style="font-size:12px">step committed</div></div>
+      </div>
+      ${S.nextStep!==null?`<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:12px;font-size:14px"><span class="muted">Your next step:</span><br><b style="color:var(--navy)">${NEXT_OPTIONS[S.nextStep]}</b></div>`:''}
+    </div>
+    <div class="card" style="padding:18px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div><b style="color:var(--navy)">Module 2 · Financial Readiness</b><div class="muted" style="font-size:13px">Now unlocked — carry your questions into Alyson's section.</div></div>
+      <button class="btn" onclick="go('dashboard')">Go to course</button>
+    </div>
+    <div style="text-align:center;margin-top:16px"><button class="btn ghost" onclick="go('workbook')">See my workbook</button></div>
+  </div>`;
+}
+
+// ---------- MY WORKBOOK ----------
+function workbook(){
+  return appbar(true)+`<div class="wrap fadein" style="padding:30px 16px;max-width:640px">
+    <h1>My workbook</h1>
+    <p class="muted">Everything you capture in a module is saved here and travels with you into the next one.</p>
+    <div class="card" style="padding:18px;margin-bottom:14px">
+      <h2 style="font-size:16px">Strain scores</h2>
+      ${Object.keys(S.strain).map(k=>`<div style="display:flex;justify-content:space-between;font-size:14px;padding:3px 0"><span class="muted">${k} load</span><b>${S.strain[k]}/10</b></div>`).join("")}
+    </div>
+    <div class="card" style="padding:18px;margin-bottom:14px">
+      <h2 style="font-size:16px">Five strengths</h2>
+      ${S.strengths.some(x=>x.trim())?S.strengths.filter(x=>x.trim()).map(x=>`<div style="font-size:14px;padding:2px 0">• ${esc(x)}</div>`).join(""):'<p class="muted" style="font-size:13px">Not captured yet.</p>'}
+    </div>
+    <div class="card" style="padding:18px">
+      <h2 style="font-size:16px">My next step</h2>
+      <p style="font-size:14px;margin:0">${S.nextStep!==null?esc(NEXT_OPTIONS[S.nextStep]):'<span class="muted">Not chosen yet.</span>'}</p>
+    </div>
+    <div style="text-align:center;margin-top:18px"><button class="btn ghost" onclick="go('dashboard')">Back to course</button></div>
+  </div>`;
+}
+
+// ---------- ROUTER ----------
+function go(scr){ pause(); S.screen=scr; render(); window.scrollTo(0,0); }
+function render(){
+  let html="";
+  if(S.screen==="welcome") html=welcome();
+  else if(S.screen==="dashboard") html=dashboard();
+  else if(S.screen==="module") html=moduleScreen();
+  else if(S.screen==="complete") html=complete();
+  else if(S.screen==="workbook") html=workbook();
+  app().innerHTML=html;
+  if(S.screen==="module"){ updHigh(); }
+}
+render();
+</script>
+</body>
+</html>
