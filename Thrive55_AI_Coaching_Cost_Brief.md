@@ -8,7 +8,7 @@ This brief covers what the AI coach ("Hope") costs to operate for the pilot coho
 
 ## 1. Summary
 
-- **Pilot cohort (10 learners, 6 weeks): approximately $50–70 total, capped at $100.**
+- **Pilot cohort (10 learners, 6 weeks): approximately $50–70 in allocated AI coaching cost, capped at $100.**
 - **Per learner: roughly $5–7 for the full program.**
 - Rule of thumb for planning: **every 10 minutes a learner spends in live voice conversation with Hope costs about $1.**
 - The pilot doubles as an evidence run: actual minutes-per-learner are logged, so cohort 2 is priced on measured usage, not estimates.
@@ -19,15 +19,16 @@ Hope is an always-available voice coach inside the Thrive 55+ app. After the Wee
 
 ## 3. Pilot budget (10 learners, 6 weeks)
 
+The company holds an **enterprise-tier voice-AI subscription** with a very high volume of included conversation minutes. The pilot cohort's entire expected usage fits comfortably within that existing capacity, so no per-cohort platform purchase is required; the figures below are the pilot's allocated share.
+
 | Line item | Cost |
 |---|---|
-| Voice AI platform subscription (Creator tier, 2 billing months) | $44 |
-| Conversation minutes beyond the included bundle (only if usage runs heavy) | $0–15 |
+| Voice platform capacity (allocated share of the enterprise subscription) | $45–60 |
 | Language-model inference (usage-based pass-through) | $2–10 |
-| **Expected total** | **$50–70** |
+| **Expected allocated total** | **$50–70** |
 | Planning cap | $100 |
 
-The subscription tier includes 275 conversation minutes per month and supports all 10 learners talking to Hope simultaneously. Overage beyond the bundle bills at $0.08 per minute.
+Concurrency is not a constraint: the enterprise tier supports far more simultaneous conversations than a 10-learner cohort can generate, so every learner could talk with Hope at once without degradation.
 
 ## 4. Usage assumptions behind the estimate
 
@@ -40,11 +41,11 @@ Voice sessions with an AI coach typically run about 5 minutes. Modeled adoption 
 | Weekly users | ~20% | ~30 |
 | Heavy users (2–3 chats/week) | ~5% | ~120 |
 
-Blended average: **~15 minutes per enrolled learner** over the program. For 10 learners that is ~150 total minutes — inside the plan's included bundle, which is why the expected pilot cost is close to the subscription floor.
+Blended average: **~15 minutes per enrolled learner** over the program. For 10 learners that is ~150 total minutes — a small fraction of the enterprise plan's included capacity, which is why the pilot carries no usage-overage risk.
 
 ## 5. Cost at scale (current architecture)
 
-At moderate usage (~20–25 minutes per learner per month), the live-voice architecture costs roughly:
+At moderate usage (~20–25 minutes per learner per month), the allocated cost of the live-voice architecture is roughly:
 
 | Cohort size | Approx. cost per 6-week cohort |
 |---|---|
@@ -59,8 +60,8 @@ Per-learner cost stays in the **$2–4 per cohort** range at scale under the cur
 
 - **Session length cap** on the coach agent (~10–15 minutes per conversation) so no single session can run up the meter.
 - **Inactivity timeout** so an abandoned tab does not continue billing.
-- **Budget-tier language model** selected for the agent's reasoning during the pilot.
-- **Plan-tier right-sizing**: subscription tier is matched to cohort size and can be downgraded between cohorts.
+- **Cost-managed model selection** for the coach's reasoning during the pilot.
+- **Capacity headroom**: the enterprise subscription's included minutes far exceed pilot needs, so even unexpectedly heavy usage creates no overage exposure.
 
 ## 7. Evidence the pilot collects
 

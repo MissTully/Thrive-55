@@ -20,8 +20,9 @@ Two commitments follow from that posture:
 The pilot ships the highest-fidelity coaching experience available: **real-time voice conversation** through a managed voice-AI platform. The learner talks with Hope the way she would talk with a colleague — natural speech, immediate responses, interruptions allowed.
 
 - **Why this first:** the pilot's job is to prove learners *want* an AI coach and to measure how they use one. Real-time voice is the strongest version of the experience, so the evidence it produces is the most decisive.
-- **Cost:** approximately $5–7 per learner for the full program (detailed in the companion Cost Brief).
-- **Trade-off accepted:** per-minute platform pricing. Acceptable at pilot scale; the migration below removes it.
+- **Capacity:** the company holds an enterprise-tier subscription with a very high volume of included conversation minutes, so pilot usage is fully covered with substantial headroom.
+- **Cost:** approximately $5–7 per learner in allocated cost for the full program (detailed in the companion Cost Brief).
+- **Trade-off accepted:** dependence on a managed platform. Comfortable at pilot scale given the enterprise capacity; the migration below removes the dependence entirely.
 
 ## 3. Next release — open-source model stack (cohort 2)
 
@@ -32,8 +33,8 @@ Cohort 2 migrates the coach to an **open-source LLM served through pay-per-use h
 | Conversation style | Real-time voice call | Conversational exchanges with spoken replies |
 | Reasoning | Platform-selected model | **Open-source LLM**, host-portable |
 | Voice | Managed platform voice | Open-source voice |
-| Cost per learner per cohort | ~$5–7 | **under $0.10** |
-| Vendor lock-in | Per-minute platform pricing | None — model weights are open, hosts are interchangeable |
+| Cost per learner per cohort | ~$5–7 (allocated) | **under $0.10** |
+| Vendor lock-in | Managed-platform subscription | None — model weights are open, hosts are interchangeable |
 
 - **One-time migration cost:** a few days of build work, budgeted once and amortized across every future cohort.
 - **Voice transition:** Hope's voice changes with the migration. This is introduced to learners deliberately ("Hope's new voice") rather than silently.
@@ -49,7 +50,7 @@ Cohort 2 migrates the coach to an **open-source LLM served through pay-per-use h
 
 ## 5. What this document does not include
 
-The following are proprietary to Thrive 55+ Nursing Advantage and are not shared in partnership documents: the coach's persona and coaching instructions, the method's integration between coach, workbook, and curriculum, prompt and grounding design, vendor account configuration, and implementation architecture. Cost figures and vendor tiers referenced here are drawn from publicly published pricing.
+The following are proprietary to Thrive 55+ Nursing Advantage and are not shared in partnership documents: the coach's persona and coaching instructions, the method's integration between coach, workbook, and curriculum, prompt and grounding design, vendor identities and account configuration, and implementation architecture. Vendor agreements and subscription terms are confidential; the company holds an enterprise-tier subscription with a very high volume of included conversation minutes.
 
 ---
 
