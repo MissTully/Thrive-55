@@ -92,7 +92,7 @@ function navHTML(active) {
   <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header">
     <div class="wrap">
-      <a class="logo" href="#/" aria-label="Thrive 55+ home">Thrive&nbsp;<b>55+</b><span class="sprout" aria-hidden="true">❧</span></a>
+      <a class="logo" href="#/" aria-label="Thrive 55+ home"><svg class="logo-mark" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><circle cx="24" cy="24" r="22.5" fill="#187878"/><path d="M24 36V21" stroke="#FBF8F3" stroke-width="2.8" stroke-linecap="round"/><path d="M24 22c-.4-7-5.5-11-12-11 .5 7 5.5 11 12 11z" fill="#8FD4C2"/><path d="M24 18c.4-6 5-9.5 11-9.5-.5 6-5 9.5-11 9.5z" fill="#FBF8F3"/><path d="M15 38q9 5 18 0" stroke="#E38E76" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><span>Thrive&nbsp;<b>55+</b></span></a>
       <nav class="main-nav" aria-label="Main navigation">
         ${links.map(([k, href, label]) =>
           `<a href="${href}" ${k === active ? 'class="active" aria-current="page"' : ""}>${label}</a>`).join("")}
@@ -107,7 +107,7 @@ function footerHTML() {
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <a class="logo" href="#/">Thrive&nbsp;<b>55+</b><span class="sprout" aria-hidden="true">❧</span></a>
+          <a class="logo" href="#/"><svg class="logo-mark" viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><circle cx="24" cy="24" r="22.5" fill="#187878"/><path d="M24 36V21" stroke="#FBF8F3" stroke-width="2.8" stroke-linecap="round"/><path d="M24 22c-.4-7-5.5-11-12-11 .5 7 5.5 11 12 11z" fill="#8FD4C2"/><path d="M24 18c.4-6 5-9.5 11-9.5-.5 6-5 9.5-11 9.5z" fill="#FBF8F3"/><path d="M15 38q9 5 18 0" stroke="#E38E76" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><span>Thrive&nbsp;<b>55+</b></span></a>
           <p style="margin-top:14px;font-size:15.5px;max-width:30em">${esc(BRAND.tagline)} A career direction program for experienced nurses deciding what comes next, without treating you as less than.</p>
         </div>
         <div>
