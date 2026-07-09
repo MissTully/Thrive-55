@@ -238,6 +238,23 @@ section.cream2 { background: #F5F0E8; }
 .lesson-row.done .check { color: var(--teal); }
 .lesson-row.done .t { color: var(--muted); }
 
+.webinar-row {
+  display: flex; align-items: center; gap: 14px; justify-content: space-between;
+  background: var(--navy); color: #fff; border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.webinar-row.attended { background: var(--teal-deep); }
+.webinar-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.webinar-live { font-size: 11.5px; letter-spacing: .12em; font-weight: 700; color: #F3B29C; }
+.webinar-row.attended .webinar-live { color: #B7E7D8; }
+.webinar-topic { font-size: 14.5px; line-height: 1.4; color: #E9F1F6; }
+
+.lesson-row.locked {
+  opacity: .55; cursor: not-allowed; background: #FAF7F1;
+}
+.lesson-row.locked:hover { border-color: var(--line); box-shadow: none; }
+.lesson-row.locked .t { color: var(--muted); }
+
 .mission {
   background: var(--coral-tint); border: 1px solid #F2D8CC; border-radius: 14px;
   padding: 14px 18px; font-size: 15.5px; margin-top: auto;

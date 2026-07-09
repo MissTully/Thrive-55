@@ -45,6 +45,7 @@ const METHOD = [
 const WEEKS = [
   {
     id: "w0",
+    webinar: "Kickoff — meet your cohort, meet Sue and Alyson, and set your intention",
     label: "Week 0",
     title: "Orientation",
     theme: "Meet the cohort, see the whole map, set an intention.",
@@ -54,6 +55,7 @@ const WEEKS = [
   },
   {
     id: "w1",
+    webinar: "Name the Strain — live teaching, and scoring your three loads together",
     label: "Week 1",
     title: "Name the Strain",
     theme: "Read the work before you read the job board.",
@@ -63,6 +65,7 @@ const WEEKS = [
   },
   {
     id: "w2",
+    webinar: "Capture Your Value — a live strengths workshop, naming what you bring",
     label: "Week 2",
     title: "Capture Your Value",
     theme: "Name what you bring, without shame.",
@@ -72,6 +75,7 @@ const WEEKS = [
   },
   {
     id: "w34",
+    webinar: "Career Reconnaissance — study the work, ask three people, compare what you learn",
     label: "Weeks 3–4",
     title: "Investigate Your Options",
     theme: "Reconnaissance: study, ask, compare.",
@@ -81,6 +85,7 @@ const WEEKS = [
   },
   {
     id: "w5",
+    webinar: "Financial Readiness — a live session with Alyson",
     label: "Week 5",
     title: "Financial Readiness",
     theme: "The financial side of a work change — with Alyson.",
@@ -90,6 +95,7 @@ const WEEKS = [
   },
   {
     id: "w6",
+    webinar: "Your Direction — share your informed step and celebrate with your cohort",
     label: "Week 6",
     title: "Your Direction",
     theme: "Commit to one step and close with the cohort.",

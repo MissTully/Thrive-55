@@ -9,7 +9,7 @@ A self-contained, browser-based learning app for **The Thrive 55+ Career Directi
 | Page | What it does |
 |---|---|
 | **Home** | Program overview, the three-part method, and the brand story |
-| **The Program** | The six-week curriculum — 15 short lessons with progress tracking and weekly missions |
+| **The Program** | The six-week cohort journey — each week anchored by a live webinar with Sue and Alyson; the week's 15 short lessons unlock after attending, with progress tracking and weekly missions |
 | **Lessons** | Big idea, learning objectives, and three interactive *pause-and-do* workbook moments (strain scoring, five strengths, one informed step) |
 | **My Workbook** | The full interactive Career Direction Workbook — answers save automatically in the browser, printable, and downloadable as a text file |
 | **Roles Explorer** | Nursing and nursing-adjacent role categories with search titles, red flags & tradeoffs, and the Concern → Question → Evidence tool |
