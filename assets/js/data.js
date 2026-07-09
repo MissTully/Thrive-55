@@ -117,7 +117,9 @@ const LESSONS = {
       "Write one intention for what you want to leave the program with."
     ],
     workbook: "The Starting Point",
-    image: "group-sketch.jpg"
+    image: "group-sketch.jpg",
+    video: "https://youtu.be/f__lIY4lrQQ",
+    videoTitle: "How the Career Direction Method Works"
   },
   v11: {
     week: "w1", code: "V1.1", mins: 5,
@@ -139,7 +141,9 @@ const LESSONS = {
       "Sort your current stressors into the three loads."
     ],
     workbook: "Body, Interruption & Change Load",
-    image: "workshop.jpg"
+    image: "workshop.jpg",
+    video: "https://youtu.be/WdxjpZVaZ0M",
+    videoTitle: "The Three Loads of Nursing Strain"
   },
   v13: {
     week: "w1", code: "V1.3", mins: 6,
@@ -152,7 +156,9 @@ const LESSONS = {
     ],
     workbook: "Strain scores",
     image: "workshop.jpg",
-    activity: "strain"
+    activity: "strain",
+    video: "https://youtu.be/CJps3VddW-s",
+    videoTitle: "Diagnosing Nurse Burnout With The Three Loads"
   },
   v21: {
     week: "w2", code: "V2.1", mins: 5,
@@ -163,7 +169,9 @@ const LESSONS = {
       "Differentiate an honest limitation from shame-based self-talk."
     ],
     workbook: "What is getting harder",
-    image: "leadership-group.jpg"
+    image: "leadership-group.jpg",
+    video: "https://youtu.be/OsOkbpyZ39k",
+    videoTitle: "Separating Career Fatigue From Personal Failure"
   },
   v22: {
     week: "w2", code: "V2.2", mins: 8,
@@ -176,7 +184,9 @@ const LESSONS = {
     ],
     workbook: "Five strengths",
     image: "leadership-group.jpg",
-    activity: "strengths"
+    activity: "strengths",
+    video: "https://youtu.be/mlwPYfEj-xQ",
+    videoTitle: "Uncovering Your Nurse Legacy Value"
   },
   v31: {
     week: "w34", code: "V3.1", mins: 5,
