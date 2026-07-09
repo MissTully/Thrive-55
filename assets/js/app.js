@@ -844,40 +844,71 @@ function resourcesView() {
   <section class="tight">
     <div class="wrap">
       <span class="eyebrow" style="margin-top:20px">Resources</span>
-      <h1 style="font-size:clamp(30px,4vw,42px)">Read while you decide</h1>
-      <p class="lede muted" style="max-width:40em">Articles from the Thrive 55+ library, plus the method at a glance.</p>
-      <div class="grid cols-2" style="margin-top:26px">
-        ${ARTICLES.map(a => {
-          const w = articleWeek(a.id);
-          if (w && !weekUnlocked(w.id)) return `
-          <div class="card article-card" style="opacity:.75" aria-disabled="true">
-            <div class="a-img" style="filter:grayscale(.4)"><img src="${img(a.image)}" alt=""></div>
-            <div class="body">
-              <span class="pill navy">🔒 Program reading · ${esc(w.label)}</span>
-              <h3 style="margin-top:12px">${esc(a.title)}</h3>
-              <p class="muted" style="margin:0">Unlocks with the ${esc(w.label)} webinar inside the program.</p>
-            </div>
-          </div>`;
-          return `
-        <a class="card article-card" href="#/article/${a.id}">
-          <div class="a-img"><img src="${img(a.image)}" alt=""></div>
-          <div class="body">
-            <span class="pill teal">${w ? "📖 " + esc(w.label) + " reading · " : ""}${a.minutes} min read</span>
-            <h3 style="margin-top:12px">${esc(a.title)}</h3>
-            <p class="muted" style="margin:0">${esc(a.subtitle)}</p>
+      <h1 style="font-size:clamp(30px,4vw,42px)">Your reconnaissance toolkit</h1>
+      <p class="lede muted" style="max-width:42em">Trusted places to research roles, practice for interviews, and build tech confidence, chosen for experienced nurses. Every link opens in a new tab so you never lose your place here.</p>
+
+      <div class="grid cols-3" style="margin-top:26px;align-items:start">
+        ${RESOURCE_GROUPS.map(g => `
+        <div class="card role-card">
+          <h3>${g.icon} ${esc(g.title)}</h3>
+          <p class="blurb">${esc(g.blurb)}</p>
+          <ul class="res-list">
+            ${g.items.map(it => `
+            <li>
+              <a href="${it.url}" ${it.internal ? "" : 'target="_blank" rel="noopener"'}>
+                <b>${esc(it.name)}</b>${it.internal ? "" : ' <span class="ext" aria-hidden="true">↗</span>'}
+              </a>
+              <span class="res-note">${esc(it.note)}</span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+      </div>
+      <p class="muted" style="font-size:14px;margin-top:18px">Outside websites change and are not run by Thrive 55+. A listing is a starting point for your own reconnaissance, not an endorsement.</p>
+    </div>
+  </section>
+
+  <section class="tinted tight">
+    <div class="wrap">
+      <div class="grid cols-2" style="align-items:start">
+        <div>
+          <h2 style="font-size:26px">Put the toolkit to work</h2>
+          <p class="muted">These resources are the raw material for the method's missions: set up one job alert, read five postings without applying, check the real salary data, and rehearse your three-people questions before a real conversation.</p>
+          <a class="btn" href="#/program">Open the program</a>
+        </div>
+        <div>
+          <h2 style="font-size:26px">From the Thrive 55+ library</h2>
+          <div style="margin-top:14px">
+          ${ARTICLES.map(a => {
+            const w = articleWeek(a.id);
+            if (w && !weekUnlocked(w.id)) return `
+            <div class="lesson-row locked" aria-disabled="true">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${esc(w.label)}</span>
+              <span class="check">🔒</span>
+            </div>`;
+            return `
+            <a class="lesson-row" href="#/article/${a.id}">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">📖</span>
+            </a>`;
+          }).join("")}
           </div>
-        </a>`;
-        }).join("")}
+        </div>
       </div>
     </div>
   </section>
+
+  ${surveyDone("pre") ? `
   <section class="tight">
     <div class="wrap">
       <h2 class="center" style="margin-bottom:22px">The method at a glance</h2>
       <img class="method-graphic" src="${img("method-graphic.jpg")}"
         alt="Infographic of the Thrive 55+ Career Direction Method: three pillars: name the strain (score body, interruption, and change loads 1–10), capture your value (identify the ordinary skills AI cannot duplicate), and investigate your options (study postings, talk to people, extract requirements), plus moving from fear to information.">
     </div>
-  </section>`;
+  </section>` : ""}`;
 }
 
 function articleView(id) {

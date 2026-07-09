@@ -408,6 +408,19 @@ input[type="range"] {
 }
 .flag-item::before { content: "⚑"; color: var(--coral-dark); font-size: 17px; line-height: 1.5; }
 
+/* ---------- Resource library ---------- */
+.res-list { margin: 12px 0 0; padding: 0; list-style: none; }
+.res-list li {
+  padding: 12px 0; border-bottom: 1px dashed var(--line);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.res-list li::before { content: none; }
+.res-list li:last-child { border-bottom: none; }
+.res-list a { text-decoration: none; color: var(--teal-dark); font-size: 16.5px; }
+.res-list a:hover b { text-decoration: underline; }
+.res-list .ext { font-size: 13px; color: var(--muted); }
+.res-note { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+
 /* ---------- Articles ---------- */
 .article-card { overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
 .article-card .a-img { height: 210px; overflow: hidden; }
