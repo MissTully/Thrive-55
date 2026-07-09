@@ -27,6 +27,7 @@ const defaultState = () => ({
   nextStepBy: "",
   nextStepLearn: "",
   intention: "",
+  webinars: {},                  // weekId -> true once attended
   surveys: {
     pre:  { answers: {}, date: null },
     post: { answers: {}, open: {}, recommend: null, date: null }
@@ -62,6 +63,8 @@ const highestStrain = () => {
   return entries[0];
 };
 const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
+const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
+function attendWebinar(wId) { S.webinars[wId] = true; save(); render(); }
 const allLessonsDone = () => doneCount() === allLessonIds.length;
 const certEarned = () => surveyDone("pre") && surveyDone("post");
 const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -133,9 +136,9 @@ function homeView() {
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="pill coral">For nurses 55+ · Self-paced · Free workbook included</span>
+        <span class="pill coral">For nurses 55+ · Cohort program · Live weekly webinars</span>
         <h1>You're not done.<br>You're just <em style="color:var(--teal);font-style:normal">evolving</em>.</h1>
-        <p class="lede">A short, practical program for experienced nurses deciding what comes next. Turn the dread of the next shift into information — and information into your next informed step.</p>
+        <p class="lede">A six-week journey you take <b>with a cohort of nurses like you</b> — anchored by live weekly webinars with Sue and Alyson. Learn together, share what you find, and turn the dread of the next shift into your next informed step.</p>
         <div class="hero-ctas">
           <a class="btn big" href="#/program">${pct > 0 ? "Continue the program" : "Start the program"}</a>
           <a class="btn big ghost" href="#/workbook">Open my workbook</a>
@@ -188,7 +191,17 @@ function homeView() {
       </div>
 
       <div class="feature-row flip">
-        <div class="feature-img"><img src="${img("water-stones.jpg")}" alt="Calm water flowing around stepping stones — finding a path"></div>
+        <div class="feature-img"><img src="${img("discussion.jpg")}" alt="Experienced nurses in a warm group discussion"></div>
+        <div>
+          <span class="eyebrow">A cohort, not a course library</span>
+          <h2>You don't walk this alone</h2>
+          <p>Every week begins <b>live</b>: a webinar with Sue and Alyson where your cohort learns together, asks the questions out loud, and shares what the week's reconnaissance turned up. Only after the webinar does that week's content open in the app — because the conversation is the class, and the lessons are how you keep it going all week.</p>
+          <p><b>Learn</b> at the webinar and in the short lessons. <b>Do</b> the week's mission in your workbook. <b>Share</b> what you found with your cohort — and hear what everyone else is finding, too.</p>
+          <a class="btn" href="#/program">See the six-week journey</a>
+        </div>
+      </div>
+
+      <div class="feature-row">
         <div>
           <span class="eyebrow">Reconnaissance, not job hunting</span>
           <h2>Turn fear into information</h2>
@@ -196,6 +209,7 @@ function homeView() {
           <p>A red flag doesn't mean no. It means <b>look closer before you leap</b>.</p>
           <a class="btn ghost" href="#/roles">Explore role categories</a>
         </div>
+        <div class="feature-img"><img src="${img("water-stones.jpg")}" alt="Calm water flowing around stepping stones — finding a path"></div>
       </div>
     </div>
   </section>
@@ -203,9 +217,9 @@ function homeView() {
   <section class="cream2 tight">
     <div class="wrap">
       <div class="stats">
-        <div class="card stat"><div class="n">6</div><div class="l">weeks, at your pace</div></div>
+        <div class="card stat"><div class="n">6</div><div class="l">live weekly webinars with Sue &amp; Alyson</div></div>
         <div class="card stat"><div class="n">15</div><div class="l">short lessons — none over 8 minutes</div></div>
-        <div class="card stat"><div class="n">3</div><div class="l">pause-and-do workbook moments</div></div>
+        <div class="card stat"><div class="n">1</div><div class="l">cohort walking beside you</div></div>
         <div class="card stat"><div class="n">1</div><div class="l">informed next step, chosen by you</div></div>
       </div>
     </div>
@@ -261,8 +275,8 @@ function programView() {
   <section class="tight">
     <div class="wrap">
       <span class="eyebrow" style="margin-top:20px">The program</span>
-      <h1 style="font-size:clamp(30px,4vw,42px)">Six weeks. Fifteen short lessons.</h1>
-      <p class="lede muted" style="max-width:40em">Each week follows the same loop: <b>Learn</b> (short lessons), <b>Do</b> (a workbook mission), <b>Share</b> (bring it to your cohort). Lessons are never longer than about eight minutes.</p>
+      <h1 style="font-size:clamp(30px,4vw,42px)">Six weeks, together.</h1>
+      <p class="lede muted" style="max-width:42em">Every week begins with a <b>live webinar with Sue and Alyson</b> — your cohort learns together and shares together. After each webinar, that week's lessons unlock here: <b>Learn</b> (short lessons, none over eight minutes), <b>Do</b> (a workbook mission), <b>Share</b> (bring what you found back to the cohort).</p>
       <div style="max-width:520px;margin:18px 0 8px">
         <div style="display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px">
           <span class="muted">Overall progress</span>
@@ -299,29 +313,46 @@ function programView() {
     <div class="wrap grid cols-2">
       ${WEEKS.map(w => {
         const total = w.lessons.length, done = weekDone(w);
+        const unlocked = weekUnlocked(w.id);
         return `
         <div class="card week-card">
           <div class="week-img"><img src="${img(w.image)}" alt=""></div>
           <div class="body">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
               <span class="pill teal">${esc(w.label)}</span>
-              <span class="muted" style="font-size:14px">${done}/${total} done</span>
+              <span class="muted" style="font-size:14px">${unlocked ? `${done}/${total} done` : "🔒 locked"}</span>
             </div>
             <h3>${esc(w.title)}</h3>
             <p class="theme">${esc(w.theme)}</p>
+            <div class="webinar-row ${unlocked ? "attended" : ""}">
+              <div class="webinar-info">
+                <span class="webinar-live">🎥 LIVE WEBINAR · Sue &amp; Alyson</span>
+                <span class="webinar-topic">${esc(w.webinar)}</span>
+              </div>
+              ${unlocked
+                ? `<span class="pill teal" style="flex-shrink:0">✔ Attended</span>`
+                : `<button class="btn coral sm" style="flex-shrink:0" onclick="attendWebinar('${w.id}')">I attended — unlock</button>`}
+            </div>
             <div>
               ${w.lessons.map(id => {
                 const L = LESSONS[id];
                 const done = !!S.completed[id];
-                return `
+                return unlocked ? `
                 <a class="lesson-row ${done ? "done" : ""}" href="#/lesson/${id}">
                   <span class="code">${L.code}</span>
                   <span class="t">${esc(L.title)}</span>
                   <span class="mins">~${L.mins} min</span>
                   <span class="check" aria-label="${done ? "Completed" : "Not completed"}">${done ? "✔" : "○"}</span>
-                </a>`;
+                </a>` : `
+                <div class="lesson-row locked" aria-disabled="true">
+                  <span class="code">${L.code}</span>
+                  <span class="t">${esc(L.title)}</span>
+                  <span class="mins">~${L.mins} min</span>
+                  <span class="check">🔒</span>
+                </div>`;
               }).join("")}
             </div>
+            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Lessons open after this week's live webinar. Your cohort's day, time, and join link arrive by email.</p>` : ""}
             <div class="mission"><b>This week's mission:</b> ${esc(w.mission)}</div>
           </div>
         </div>`;
@@ -349,6 +380,18 @@ function lessonView(id) {
   const L = LESSONS[id];
   if (!L) return notFoundView();
   const W = WEEKS.find(w => w.id === L.week);
+  if (!weekUnlocked(W.id)) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:48px 0">
+        <span class="pill navy">🔒 Opens after the webinar</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">This lesson unlocks with your cohort</h1>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">${esc(W.label)} begins live: <b style="color:var(--navy)">${esc(W.webinar)}</b>. Attend the webinar with Sue and Alyson, then come back — this week's lessons open right after.</p>
+        <p class="muted" style="font-size:15px;margin-bottom:26px">Your cohort's day, time, and join link arrive by email.</p>
+        <a class="btn big" href="#/program">Back to the program</a>
+      </div>
+    </section>`;
+  }
   const ids = allLessonIds;
   const idx = ids.indexOf(id);
   const prev = idx > 0 ? ids[idx - 1] : null;
