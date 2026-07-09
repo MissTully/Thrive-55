@@ -407,9 +407,12 @@ function programView() {
       <div class="callout-coral" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between">
         <div style="max-width:38em">
           <h3>Your workbook travels with you</h3>
-          <p style="margin:0">Three lessons pause and open a workbook step right on the page: your strain scores, your five strengths, and your one informed step. Everything saves automatically in this browser.</p>
+          <p style="margin:0">Three lessons pause and open a workbook step right on the page: your strain scores, your five strengths, and your one informed step. Everything saves automatically in this browser.${weekUnlocked("w0") ? "" : " The printable PDF edition unlocks with the kickoff webinar."}</p>
         </div>
-        <a class="btn coral" href="#/workbook">Open my workbook</a>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn coral" href="#/workbook">Open my workbook</a>
+          ${weekUnlocked("w0") ? `<a class="btn ghost" href="assets/downloads/thrive55-career-direction-workbook.pdf" download="Thrive 55+ Career Direction Workbook.pdf">Download the PDF</a>` : ""}
+        </div>
       </div>
     </div>
   </section>`;
@@ -617,6 +620,15 @@ function workbookView() {
       <span class="eyebrow" style="margin-top:20px">My workbook</span>
       <h1 style="font-size:clamp(30px,4vw,42px)">The Career Direction Workbook</h1>
       <p class="lede muted" style="max-width:38em">Everything you capture in a lesson lands here, and everything here travels with you into the next lesson. Answers save automatically in this browser.</p>
+      ${weekUnlocked("w0") ? `
+      <div class="callout-coral no-print" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin:6px 0 4px">
+        <div style="max-width:38em">
+          <h3 style="margin-bottom:4px">📄 Your printable workbook</h3>
+          <p style="margin:0">The full Career Direction Workbook as a PDF — print it, write in it by hand, and keep it beside you through all six weeks.</p>
+        </div>
+        <a class="btn coral" href="assets/downloads/thrive55-career-direction-workbook.pdf" download="Thrive 55+ Career Direction Workbook.pdf">Download the workbook (PDF)</a>
+      </div>` : `
+      <p class="muted no-print" style="font-size:15px">🔒 The printable workbook (PDF) unlocks after the Week 0 kickoff webinar — attend, mark it in <a href="#/program">the program</a>, and the download appears here.</p>`}
       <div class="wb-toc" aria-label="Workbook sections">
         <a href="#wb-strain">1 · Strain</a>
         <a href="#wb-value">2 · Value</a>
