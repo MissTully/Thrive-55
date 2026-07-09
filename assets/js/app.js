@@ -64,6 +64,7 @@ const highestStrain = () => {
 };
 const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
 const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
+const articleWeek = id => WEEKS.find(w => w.reading === id);
 function attendWebinar(wId) {
   if (!surveyDone("pre")) { location.hash = "#/survey/pre"; return; }
   S.webinars[wId] = true; save(); render();
@@ -119,7 +120,6 @@ function footerHTML() {
         <div>
           <h4>Learn</h4>
           <a href="#/article/evolving">You're Not Done, You're Just Evolving</a>
-          <a href="#/article/bedside">Beyond the Bedside</a>
         </div>
       </div>
       <div class="fineprint">
@@ -365,7 +365,20 @@ function programView() {
                 </div>`;
               }).join("")}
             </div>
-            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Lessons open after this week's live webinar. Your cohort's meeting day, time, and join link will be emailed to you.</p>` : ""}
+            ${w.reading ? (a => unlocked ? `
+            <a class="lesson-row" href="#/article/${a.id}">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">📖</span>
+            </a>` : `
+            <div class="lesson-row locked" aria-disabled="true">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">🔒</span>
+            </div>`)(ARTICLES.find(x => x.id === w.reading)) : ""}
+            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Materials open after this week's live webinar. Your cohort's meeting day, time, and join link will be emailed to you.</p>` : ""}
             <div class="mission"><b>This week's mission:</b> ${esc(w.mission)}</div>
           </div>
         </div>`;
@@ -833,15 +846,27 @@ function resourcesView() {
       <h1 style="font-size:clamp(30px,4vw,42px)">Read while you decide</h1>
       <p class="lede muted" style="max-width:40em">Articles from the Thrive 55+ library, plus the method at a glance.</p>
       <div class="grid cols-2" style="margin-top:26px">
-        ${ARTICLES.map(a => `
+        ${ARTICLES.map(a => {
+          const w = articleWeek(a.id);
+          if (w && !weekUnlocked(w.id)) return `
+          <div class="card article-card" style="opacity:.75" aria-disabled="true">
+            <div class="a-img" style="filter:grayscale(.4)"><img src="${img(a.image)}" alt=""></div>
+            <div class="body">
+              <span class="pill navy">🔒 Program reading · ${esc(w.label)}</span>
+              <h3 style="margin-top:12px">${esc(a.title)}</h3>
+              <p class="muted" style="margin:0">Unlocks with the ${esc(w.label)} webinar inside the program.</p>
+            </div>
+          </div>`;
+          return `
         <a class="card article-card" href="#/article/${a.id}">
           <div class="a-img"><img src="${img(a.image)}" alt=""></div>
           <div class="body">
-            <span class="pill teal">${a.minutes} min read</span>
+            <span class="pill teal">${w ? "📖 " + esc(w.label) + " reading · " : ""}${a.minutes} min read</span>
             <h3 style="margin-top:12px">${esc(a.title)}</h3>
             <p class="muted" style="margin:0">${esc(a.subtitle)}</p>
           </div>
-        </a>`).join("")}
+        </a>`;
+        }).join("")}
       </div>
     </div>
   </section>
@@ -857,6 +882,18 @@ function resourcesView() {
 function articleView(id) {
   const A = ARTICLES.find(a => a.id === id);
   if (!A) return notFoundView();
+  const W = articleWeek(id);
+  if (W && !weekUnlocked(W.id)) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:48px 0">
+        <span class="pill navy">🔒 Program reading</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">This reading unlocks with your cohort</h1>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">"${esc(A.title)}" is part of ${esc(W.label)} · ${esc(W.title)}. Attend the webinar with Sue and Alyson, then come back. It opens with the rest of the week's materials.</p>
+        <div style="margin-top:24px"><a class="btn big" href="#/program">Go to the program</a></div>
+      </div>
+    </section>`;
+  }
   return `
   <section class="tight">
     <div class="wrap narrow">

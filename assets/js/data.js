@@ -46,6 +46,7 @@ const WEEKS = [
   {
     id: "w0",
     webinar: "Kickoff: meet your cohort, meet Sue and Alyson, and set your intention",
+    reading: "bedside",
     label: "Week 0",
     title: "Orientation",
     theme: "Meet the cohort, see the whole map, set an intention.",
