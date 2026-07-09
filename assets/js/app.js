@@ -1,5 +1,5 @@
 /* ============================================================
-   Thrive 55+ — App (hash router + views + saved progress)
+   Thrive 55+ App (hash router + views + saved progress)
    All learner data stays in this browser via localStorage.
    ============================================================ */
 
@@ -108,7 +108,7 @@ function footerHTML() {
       <div class="footer-grid">
         <div>
           <a class="logo" href="#/">Thrive&nbsp;<b>55+</b><span class="sprout" aria-hidden="true">❧</span></a>
-          <p style="margin-top:14px;font-size:15.5px;max-width:30em">${esc(BRAND.tagline)} A career direction program for experienced nurses deciding what comes next — without treating you as less than.</p>
+          <p style="margin-top:14px;font-size:15.5px;max-width:30em">${esc(BRAND.tagline)} A career direction program for experienced nurses deciding what comes next, without treating you as less than.</p>
         </div>
         <div>
           <h4>Program</h4>
@@ -141,7 +141,7 @@ function homeView() {
       <div>
         <span class="pill coral">For nurses 55+ · Cohort program · Live weekly webinars</span>
         <h1>You're not done.<br>You're just <em style="color:var(--teal);font-style:normal">evolving</em>.</h1>
-        <p class="lede">A six-week journey you take <b>with a cohort of nurses like you</b> — anchored by live weekly webinars with Sue and Alyson. Learn together, share what you find, and turn the dread of the next shift into your next informed step.</p>
+        <p class="lede">A six-week journey you take <b>with a cohort of nurses like you</b>, built around live weekly webinars with Sue and Alyson. Learn together, share what you find, and turn the dread of the next shift into your next informed step.</p>
         ${surveyDone("pre") ? `
         <div class="hero-ctas">
           <a class="btn big" href="#/program">${pct > 0 ? "Continue the program" : "Go to the program"}</a>
@@ -192,7 +192,7 @@ function homeView() {
         <div>
           <span class="eyebrow">Why this works</span>
           <h2>Career direction doesn't start with a job title</h2>
-          <p>It starts by learning how to <b>read the work</b>. You're not asking whether you still love nursing — you do. The harder question is whether your body and mind can keep carrying <em>this version</em> of the work until retirement.</p>
+          <p>It starts by learning how to <b>read the work</b>. You're not asking whether you still love nursing. You do. The harder question is whether your body and mind can keep carrying <em>this version</em> of the work until retirement.</p>
           <p>You still have experience, judgment, value, and income needs. You just need a way of working that no longer leaves you dreading the next shift before the current one is over.</p>
           <a class="btn" href="#/lesson/v01">Start with lesson one</a>
         </div>
@@ -204,8 +204,8 @@ function homeView() {
         <div>
           <span class="eyebrow">A cohort, not a course library</span>
           <h2>You don't walk this alone</h2>
-          <p>Every week begins <b>live</b>: a webinar with Sue and Alyson where your cohort learns together, asks the questions out loud, and shares what the week's reconnaissance turned up. Only after the webinar does that week's content open in the app — because the conversation is the class, and the lessons are how you keep it going all week.</p>
-          <p><b>Learn</b> at the webinar and in the short lessons. <b>Do</b> the week's mission in your workbook. <b>Share</b> what you found with your cohort — and hear what everyone else is finding, too.</p>
+          <p>Every week begins <b>live</b>: a webinar with Sue and Alyson where your cohort learns together, asks the questions out loud, and shares what the week's reconnaissance turned up. Only after the webinar does that week's content open in the app, because the conversation is the class, and the lessons are how you keep it going all week.</p>
+          <p><b>Learn</b> at the webinar and in the short lessons. <b>Do</b> the week's mission in your workbook. <b>Share</b> what you found with your cohort, and hear what everyone else is finding, too.</p>
           <a class="btn" href="#/program">See the six-week journey</a>
         </div>
       </div>
@@ -214,11 +214,11 @@ function homeView() {
         <div>
           <span class="eyebrow">Reconnaissance, not job hunting</span>
           <h2>Turn fear into information</h2>
-          <p>Fear alone does not give you good information. Reconnaissance does. Study the work through job postings — no applying yet. Ask three people who know the work. Compare what you learn against your strain, your value, and the income you still need.</p>
+          <p>Fear alone does not give you good information. Reconnaissance does. Study the work through job postings (no applying yet). Ask three people who know the work. Compare what you learn against your strain, your value, and the income you still need.</p>
           <p>A red flag doesn't mean no. It means <b>look closer before you leap</b>.</p>
           <a class="btn ghost" href="#/roles">Explore role categories</a>
         </div>
-        <div class="feature-img"><img src="${img("water-stones.jpg")}" alt="Calm water flowing around stepping stones — finding a path"></div>
+        <div class="feature-img"><img src="${img("water-stones.jpg")}" alt="Calm water flowing around stepping stones, finding a path"></div>
       </div>
     </div>
   </section>
@@ -227,7 +227,7 @@ function homeView() {
     <div class="wrap">
       <div class="stats">
         <div class="card stat"><div class="n">6</div><div class="l">live weekly webinars with Sue &amp; Alyson</div></div>
-        <div class="card stat"><div class="n">15</div><div class="l">short lessons — none over 8 minutes</div></div>
+        <div class="card stat"><div class="n">15</div><div class="l">short lessons, none over 8 minutes</div></div>
         <div class="card stat"><div class="n">1</div><div class="l">cohort walking beside you</div></div>
         <div class="card stat"><div class="n">1</div><div class="l">informed next step, chosen by you</div></div>
       </div>
@@ -237,7 +237,7 @@ function homeView() {
   <section>
     <div class="wrap center">
       <p class="bigquote">“The highest score does not tell you to panic. <em>It tells you where to look first.</em>”</p>
-      <p class="quote-attr">— ${esc(BRAND.founder)} · ${esc(BRAND.founderTitle)}</p>
+      <p class="quote-attr">${esc(BRAND.founder)} · ${esc(BRAND.founderTitle)}</p>
     </div>
   </section>
 
@@ -247,7 +247,7 @@ function homeView() {
         <img src="${img("bridge.jpg")}" alt="Two women crossing a bridge together, symbolizing career transition">
         <div class="overlay"><div class="overlay-inner">
           <h2>Walk the bridge with a method beside you</h2>
-          <p>Six weeks. One repeatable method. A workbook that saves your answers as you go — and hands you off to the financial side of the decision when you're ready.</p>
+          <p>Six weeks. One repeatable method. A workbook that saves your answers as you go, then hands you off to the financial side of the decision when you're ready.</p>
           <a class="btn coral" href="#/program">See the six weeks</a>
         </div></div>
       </div>
@@ -285,7 +285,7 @@ function programView() {
     <div class="wrap">
       <span class="eyebrow" style="margin-top:20px">The program</span>
       <h1 style="font-size:clamp(30px,4vw,42px)">Six weeks, together.</h1>
-      <p class="lede muted" style="max-width:42em">Every week begins with a <b>live webinar with Sue and Alyson</b> — your cohort learns together and shares together. After each webinar, that week's lessons unlock here: <b>Learn</b> (short lessons, none over eight minutes), <b>Do</b> (a workbook mission), <b>Share</b> (bring what you found back to the cohort).</p>
+      <p class="lede muted" style="max-width:42em">Every week begins with a <b>live webinar with Sue and Alyson</b>. Your cohort learns together and shares together. After each webinar, that week's lessons unlock here: <b>Learn</b> (short lessons, none over eight minutes), <b>Do</b> (a workbook mission), <b>Share</b> (bring what you found back to the cohort).</p>
       <div style="max-width:520px;margin:18px 0 8px">
         <div style="display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px">
           <span class="muted">Overall progress</span>
@@ -297,7 +297,7 @@ function programView() {
       <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
         <div style="max-width:36em">
           <h3 style="font-size:19px">🔑 First: capture your starting point</h3>
-          <p style="margin:0">A five-minute survey is the key to the program — it unlocks your workbook and each week's materials, and at the end you'll answer the same questions to see exactly how far you've come.</p>
+          <p style="margin:0">A five-minute survey is the key to the program. It unlocks your workbook and each week's materials, and at the end you'll answer the same questions to see exactly how far you've come.</p>
         </div>
         <a class="btn coral" href="#/survey/pre">Take the starting-point survey</a>
       </div>` : allLessonsDone() && !surveyDone("post") ? `
@@ -341,7 +341,7 @@ function programView() {
               ${unlocked
                 ? `<span class="pill teal" style="flex-shrink:0">✔ Attended</span>`
                 : surveyDone("pre")
-                  ? `<button class="btn coral sm" style="flex-shrink:0" onclick="attendWebinar('${w.id}')">I attended — unlock</button>`
+                  ? `<button class="btn coral sm" style="flex-shrink:0" onclick="attendWebinar('${w.id}')">I attended this webinar</button>`
                   : `<a class="btn coral sm" style="flex-shrink:0" href="#/survey/pre">🔑 Survey first</a>`}
             </div>
             <div>
@@ -363,7 +363,7 @@ function programView() {
                 </div>`;
               }).join("")}
             </div>
-            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Lessons open after this week's live webinar. Your cohort's day, time, and join link arrive by email.</p>` : ""}
+            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Lessons open after this week's live webinar. Your cohort's meeting day, time, and join link will be emailed to you.</p>` : ""}
             <div class="mission"><b>This week's mission:</b> ${esc(w.mission)}</div>
           </div>
         </div>`;
@@ -376,7 +376,7 @@ function programView() {
       <div class="callout-coral" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between">
         <div style="max-width:38em">
           <h3>Your workbook travels with you</h3>
-          <p style="margin:0">Three lessons pause and open a workbook step right on the page — your strain scores, your five strengths, and your one informed step. Everything saves automatically in this browser.</p>
+          <p style="margin:0">Three lessons pause and open a workbook step right on the page: your strain scores, your five strengths, and your one informed step. Everything saves automatically in this browser.</p>
         </div>
         <a class="btn coral" href="#/workbook">Open my workbook</a>
       </div>
@@ -397,8 +397,8 @@ function lessonView(id) {
       <div class="wrap narrow center" style="padding:48px 0">
         <span class="pill navy">🔒 Opens after the webinar</span>
         <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">This lesson unlocks with your cohort</h1>
-        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">${esc(W.label)} begins live: <b style="color:var(--navy)">${esc(W.webinar)}</b>. Attend the webinar with Sue and Alyson, then come back — this week's lessons open right after.</p>
-        <p class="muted" style="font-size:15px;margin-bottom:26px">Your cohort's day, time, and join link arrive by email.</p>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">${esc(W.label)} begins live: <b style="color:var(--navy)">${esc(W.webinar)}</b>. Attend the webinar with Sue and Alyson, then come back. This week's lessons open right after.</p>
+        <p class="muted" style="font-size:15px;margin-bottom:26px">Your cohort's meeting day, time, and join link will be emailed to you.</p>
         <a class="btn big" href="#/program">Back to the program</a>
       </div>
     </section>`;
@@ -412,7 +412,7 @@ function lessonView(id) {
   return `
   <section class="tight">
     <div class="wrap narrow">
-      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/program">The Program</a> · ${esc(W.label)} — ${esc(W.title)}</nav>
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/program">The Program</a> · ${esc(W.label)} · ${esc(W.title)}</nav>
       <div style="display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap">
         <span class="pill teal">${L.code} · ~${L.mins} min</span>
         ${done ? '<span class="pill coral">✔ Completed</span>' : ""}
@@ -434,7 +434,7 @@ function lessonView(id) {
       ${L.activity ? activityHTML(L.activity) : ""}
 
       <div style="margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-        <button class="btn ${done ? "ghost" : ""}" onclick="toggleComplete('${id}')">${done ? "✔ Completed — mark as not done" : "Mark lesson complete"}</button>
+        <button class="btn ${done ? "ghost" : ""}" onclick="toggleComplete('${id}')">${done ? "✔ Completed (tap to undo)" : "Mark lesson complete"}</button>
         <a class="btn ghost" href="#/workbook">Open my workbook</a>
         <a class="btn ghost" href="#/coach">Talk it through with Hope</a>
       </div>
@@ -465,7 +465,7 @@ function activityHTML(kind) {
       <p class="muted" style="margin-top:2px">Name five strengths you keep dismissing because they feel ordinary.</p>
       ${strengthsInputsHTML()}`,
     conversations: () => `
-      <p class="muted" style="margin-top:2px">They don't have to be perfect contacts — they only need to know something useful. Log each conversation as you have it.</p>
+      <p class="muted" style="margin-top:2px">They don't have to be perfect contacts. They only need to know something useful. Log each conversation as you have it.</p>
       ${conversationsHTML()}`,
     nextstep: () => `
       <p class="muted" style="margin-top:2px">Pick just one. That's how career direction begins.</p>
@@ -505,7 +505,7 @@ function strainSlidersHTML() {
 }
 function strainHintText() {
   const [top, score] = highestStrain();
-  return `Your highest strain is <b>${top.name.toLowerCase()} (${score}/10)</b> — that's where to look first. ${top.advice}`;
+  return `Your highest strain is <b>${top.name.toLowerCase()} (${score}/10)</b>. That's where to look first. ${top.advice}`;
 }
 function setStrain(key, val) {
   S.strain[key] = +val; save();
@@ -517,7 +517,7 @@ function setStrain(key, val) {
 function strengthsInputsHTML() {
   return `
   ${S.strengths.map((v, i) => `
-    <input type="text" style="margin-bottom:9px" placeholder="Strength ${i + 1} — e.g. ${esc(VALUE_SKILLS[(i * 3) % VALUE_SKILLS.length].toLowerCase())}"
+    <input type="text" style="margin-bottom:9px" placeholder="Strength ${i + 1}, e.g. ${esc(VALUE_SKILLS[(i * 3) % VALUE_SKILLS.length].toLowerCase())}"
       value="${esc(v)}" aria-label="Strength ${i + 1}" oninput="S.strengths[${i}]=this.value;save()">`).join("")}
   <p class="muted" style="font-size:14.5px;margin:8px 0 0">Need a spark? Tap to add:</p>
   <div class="chips">
@@ -573,8 +573,8 @@ function workbookView() {
       <div class="wrap narrow center" style="padding:48px 0">
         <span class="pill coral">🔑 One step first</span>
         <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">Your workbook opens with the starting-point survey</h1>
-        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">Five minutes, seven honest statements — your baseline. At the end of the program you'll answer the same questions and see exactly how far you've come. It unlocks your workbook and the weekly program materials.</p>
-        <div style="margin-top:24px"><a class="btn big coral" href="#/survey/pre">Take the survey — unlock my workbook</a></div>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">Five minutes, seven honest statements. It's your baseline. At the end of the program you'll answer the same questions and see exactly how far you've come. It unlocks your workbook and the weekly program materials.</p>
+        <div style="margin-top:24px"><a class="btn big coral" href="#/survey/pre">Take the survey and unlock my workbook</a></div>
       </div>
     </section>`;
   }
@@ -585,7 +585,7 @@ function workbookView() {
     <div class="wrap narrow">
       <span class="eyebrow" style="margin-top:20px">My workbook</span>
       <h1 style="font-size:clamp(30px,4vw,42px)">The Career Direction Workbook</h1>
-      <p class="lede muted" style="max-width:38em">Everything you capture in a lesson lands here — and everything here travels with you into the next lesson. Answers save automatically in this browser.</p>
+      <p class="lede muted" style="max-width:38em">Everything you capture in a lesson lands here, and everything here travels with you into the next lesson. Answers save automatically in this browser.</p>
       <div class="wb-toc" aria-label="Workbook sections">
         <a href="#wb-strain">1 · Strain</a>
         <a href="#wb-value">2 · Value</a>
@@ -599,7 +599,7 @@ function workbookView() {
       <!-- 1 · STRAIN -->
       <div class="wb-section" id="wb-strain">
         <div class="card">
-          <div class="wb-head"><span class="stepnum">Step 1</span><h2 style="margin:0">Strain — what is wearing you down?</h2></div>
+          <div class="wb-head"><span class="stepnum">Step 1</span><h2 style="margin:0">Strain: what is wearing you down?</h2></div>
           <p class="muted">You may still care about nursing. You may still be fully capable. The question is what the work is asking from your body, attention, recovery, and ability to keep adapting.</p>
           <table class="guide-table">
             <caption class="muted" style="text-align:left;font-size:14px;padding-bottom:6px">Strain scoring guide</caption>
@@ -608,7 +608,7 @@ function workbookView() {
             </tbody>
           </table>
           <div style="margin-top:22px">${strainSlidersHTML()}</div>
-          <label for="wb_sev">Evidence from my work or recovery — what would the next role need to reduce or change?</label>
+          <label for="wb_sev">Evidence from my work or recovery: what would the next role need to reduce or change?</label>
           <textarea id="wb_sev" oninput="S.strainEvidence=this.value;save()">${esc(S.strainEvidence)}</textarea>
         </div>
       </div>
@@ -616,8 +616,8 @@ function workbookView() {
       <!-- 2 · VALUE -->
       <div class="wb-section" id="wb-value">
         <div class="card">
-          <div class="wb-head"><span class="stepnum">Step 2</span><h2 style="margin:0">Value — what do you bring with you?</h2></div>
-          <p class="muted">You have spent years reading the patient, the family, the room, the shift, the unit, the workflow, the risk — and the problem before someone else officially names it. These are not compliments. They are evidence of your working value.</p>
+          <div class="wb-head"><span class="stepnum">Step 2</span><h2 style="margin:0">Value: what do you bring with you?</h2></div>
+          <p class="muted">You have spent years reading the patient, the family, the room, the shift, the unit, the workflow, the risk, and the problem before someone else officially names it. These are not compliments. They are evidence of your working value.</p>
           ${strengthsInputsHTML()}
           <label for="wb_carry">One strength I want to carry into my next role</label>
           <input type="text" id="wb_carry" value="${esc(S.carryStrength)}" oninput="S.carryStrength=this.value;save()">
@@ -629,7 +629,7 @@ function workbookView() {
       <!-- 3 · OPTIONS -->
       <div class="wb-section" id="wb-options">
         <div class="card">
-          <div class="wb-head"><span class="stepnum">Step 3</span><h2 style="margin:0">Options — reconnaissance</h2></div>
+          <div class="wb-head"><span class="stepnum">Step 3</span><h2 style="margin:0">Options: reconnaissance</h2></div>
           <p class="muted">Investigating options is not choosing a final job today. Study the work, ask people who know it, and compare what you learn. <a href="#/roles">Browse role categories and search titles →</a></p>
           <h3 style="margin-top:18px">Talk to three people this week</h3>
           ${conversationsHTML()}
@@ -683,7 +683,7 @@ function workbookView() {
           <div class="summary-grid">
             <div class="cell">
               <div class="k">Highest strain</div>
-              <div class="v">${esc(top.name)} — ${topScore}/10</div>
+              <div class="v">${esc(top.name)}, ${topScore}/10</div>
             </div>
             <div class="cell">
               <div class="k">Strengths named</div>
@@ -695,7 +695,7 @@ function workbookView() {
             </div>
           </div>
           ${strengthsNamed.length ? `<p style="font-size:16px"><b style="color:var(--navy)">My strengths:</b> ${strengthsNamed.map(esc).join(" · ")}</p>` : ""}
-          ${S.nextStepBy ? `<p style="font-size:16px"><b style="color:var(--navy)">By:</b> ${esc(S.nextStepBy)}${S.nextStepLearn ? ` — expecting to learn: ${esc(S.nextStepLearn)}` : ""}</p>` : ""}
+          ${S.nextStepBy ? `<p style="font-size:16px"><b style="color:var(--navy)">By:</b> ${esc(S.nextStepBy)}${S.nextStepLearn ? `, expecting to learn: ${esc(S.nextStepLearn)}` : ""}</p>` : ""}
           <p class="serif" style="font-size:20px;color:var(--teal-deep);margin:18px 0 20px">You now have a way to start.</p>
           <div class="wb-actions no-print">
             <a class="btn coral" href="#/coach">Talk it through with Hope</a>
@@ -712,36 +712,36 @@ function workbookView() {
 function downloadWorkbook() {
   const [top, topScore] = highestStrain();
   const lines = [
-    "THE THRIVE 55+ CAREER DIRECTION METHOD(TM) — MY WORKBOOK",
+    "THE THRIVE 55+ CAREER DIRECTION METHOD: MY WORKBOOK",
     "Name the strain. Capture your value. Investigate your options.",
     "",
-    "— STRAIN —",
+    "STRAIN",
     ...STRAIN_AREAS.map(a => `${a.name}: ${S.strain[a.key]}/10`),
     `Highest strain: ${top.name} (${topScore}/10)`,
     S.strainEvidence ? `Evidence / what the next role must change: ${S.strainEvidence}` : null,
     "",
-    "— VALUE —",
+    "VALUE",
     ...S.strengths.filter(s => s.trim()).map((s, i) => `Strength ${i + 1}: ${s}`),
     S.carryStrength ? `Carrying forward: ${S.carryStrength}` : null,
     S.leaveBehind ? `Not carrying forward unchanged: ${S.leaveBehind}` : null,
     "",
-    "— OPTIONS: THREE CONVERSATIONS —",
+    "OPTIONS: THREE CONVERSATIONS",
     ...S.conversations.flatMap((c, i) => c.person || c.learned ? [
       `Conversation ${i + 1}: ${c.person}`,
       c.learned ? `  Learned: ${c.learned}` : null,
       c.suggested ? `  Suggested next: ${c.suggested}` : null
     ] : [null]),
     "",
-    "— RED FLAGS & TRADEOFFS —",
+    "RED FLAGS & TRADEOFFS",
     S.tradeoffAccept ? `May accept: ${S.tradeoffAccept}` : null,
     S.tradeoffReject ? `Will not accept: ${S.tradeoffReject}` : null,
     S.openQuestion ? `Question to answer first: ${S.openQuestion}` : null,
     "",
-    "— SKILL GAP OR STOP SIGN —",
+    "SKILL GAP OR STOP SIGN",
     S.skillGap ? `To evaluate: ${S.skillGap}` : null,
     S.skillGapPlan ? `First learning step: ${S.skillGapPlan}` : null,
     "",
-    "— MY NEXT INFORMED STEP —",
+    "MY NEXT INFORMED STEP",
     S.nextStep !== null ? NEXT_STEPS[S.nextStep] : "(not chosen yet)",
     S.nextStepBy ? `By: ${S.nextStepBy}` : null,
     S.nextStepLearn ? `Expecting to learn: ${S.nextStepLearn}` : null,
@@ -774,7 +774,7 @@ function rolesView() {
     <div class="wrap">
       <span class="eyebrow" style="margin-top:20px">Roles explorer</span>
       <h1 style="font-size:clamp(30px,4vw,42px)">Nursing roles & search titles to explore</h1>
-      <p class="lede muted" style="max-width:42em">Categories are starting points, not answers. Each one has tradeoffs — evaluate every role against your highest strain.</p>
+      <p class="lede muted" style="max-width:42em">Categories are starting points, not answers. Each one has tradeoffs. Evaluate every role against your highest strain.</p>
       <div class="callout-coral" style="margin:22px 0 34px">
         <h3 style="font-size:18px">How to use this list</h3>
         <p style="margin:0">${esc(ROLE_HOWTO)}</p>
@@ -795,7 +795,7 @@ function rolesView() {
       <div class="grid cols-2" style="align-items:start">
         <div>
           <h2>Concern → Question → Evidence</h2>
-          <p class="muted">Reconnaissance turns fear into information. Convert a concern into a question you can investigate — and know where you'll get the answer.</p>
+          <p class="muted">Reconnaissance turns fear into information. Convert a concern into a question you can investigate, and know where you'll get the answer.</p>
           <table class="guide-table" style="background:#fff;border-radius:14px;overflow:hidden">
             <thead><tr><th>Concern</th><th>Better question</th><th>Where to ask</th></tr></thead>
             <tbody>
@@ -805,7 +805,7 @@ function rolesView() {
         </div>
         <div>
           <h2>Red flags & tradeoffs</h2>
-          <p class="muted">A red flag doesn't mean no — it means look closer before you leap.</p>
+          <p class="muted">A red flag doesn't mean no. It means look closer before you leap.</p>
           ${RED_FLAGS.map(f => `<div class="flag-item">${esc(f)}</div>`).join("")}
         </div>
       </div>
@@ -847,7 +847,7 @@ function resourcesView() {
     <div class="wrap">
       <h2 class="center" style="margin-bottom:22px">The method at a glance</h2>
       <img class="method-graphic" src="${img("method-graphic.jpg")}"
-        alt="Infographic of the Thrive 55+ Career Direction Method: three pillars — name the strain (score body, interruption, and change loads 1–10), capture your value (identify the ordinary skills AI cannot duplicate), investigate your options (study postings, talk to people, extract requirements) — and moving from fear to information.">
+        alt="Infographic of the Thrive 55+ Career Direction Method: three pillars: name the strain (score body, interruption, and change loads 1–10), capture your value (identify the ordinary skills AI cannot duplicate), and investigate your options (study postings, talk to people, extract requirements), plus moving from fear to information.">
     </div>
   </section>`;
 }
@@ -888,7 +888,7 @@ function surveyView(kind) {
     <section>
       <div class="wrap narrow center" style="padding:40px 0">
         <span class="pill teal">✔ Completed ${fmtDate(S.surveys[kind].date)}</span>
-        <h1 style="margin-top:16px">${isPre ? "You're in — the program is unlocked" : "Thank you — your final survey is in"}</h1>
+        <h1 style="margin-top:16px">${isPre ? "You're in! The program is unlocked" : "Thank you! Your final survey is in"}</h1>
         <p class="lede muted" style="max-width:34em;margin:0 auto 24px">${isPre
           ? "Your starting point is saved, and your workbook and program materials are now open. When you finish the program, the final survey will show how far you've come."
           : "Your before-and-after results are ready, and so is your certificate."}</p>
@@ -904,7 +904,7 @@ function surveyView(kind) {
       <div class="wrap narrow center" style="padding:40px 0">
         <span class="pill navy">🔒 Not yet</span>
         <h1 style="margin-top:16px">Finish the program first</h1>
-        <p class="lede muted" style="max-width:34em;margin:0 auto 24px">The final survey opens after your last lesson — you've completed ${doneCount()} of ${allLessonIds.length}. That's what makes your before-and-after comparison honest.</p>
+        <p class="lede muted" style="max-width:34em;margin:0 auto 24px">The final survey opens after your last lesson. You've completed ${doneCount()} of ${allLessonIds.length}. That's what makes your before-and-after comparison honest.</p>
         <a class="btn big" href="#/program">Back to the program</a>
       </div>
     </section>`;
@@ -916,9 +916,9 @@ function surveyView(kind) {
       <span class="eyebrow" style="margin-top:20px">${isPre ? "Before you begin" : "The final step"}</span>
       <h1 style="font-size:clamp(28px,4vw,40px)">${isPre ? "Where are you starting from?" : "How far have you come?"}</h1>
       <p class="lede muted" style="max-width:40em">${isPre
-        ? "Seven statements, about five minutes. Answer honestly — this is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed. Finishing unlocks your workbook and the program materials."
-        : "The same seven statements you answered at the start. Answer for how things are today — then we'll show you the before and after, and your certificate."}</p>
-      <p class="muted" style="font-size:14.5px">Your answers stay in this browser. No health information is asked, ever.</p>
+        ? "Seven statements, about five minutes. Answer honestly. This is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed. Finishing unlocks your workbook and the program materials."
+        : "The same seven statements you answered at the start. Answer for how things are today, then we'll show you the before and after, and your certificate."}</p>
+      <p class="muted" style="font-size:14.5px">Your answers stay in this browser. We never ask about your health; this is career education only.</p>
 
       <form id="surveyForm" onsubmit="return submitSurvey('${kind}')">
         ${SURVEY_ITEMS.map((it, n) => `
@@ -955,7 +955,7 @@ function surveyView(kind) {
         </div>`).join("")}` : ""}
 
         <div class="center" style="margin-top:26px">
-          <button class="btn big ${isPre ? "" : "coral"}" type="submit">${isPre ? "Save my starting point" : "Finish — show my results"}</button>
+          <button class="btn big ${isPre ? "" : "coral"}" type="submit">${isPre ? "Save my starting point" : "Finish and show my results"}</button>
           <p class="muted" id="surveyWarn" style="font-size:14.5px;margin-top:10px"></p>
         </div>
       </form>
@@ -969,7 +969,7 @@ function submitSurvey(kind) {
   const needRec = kind === "post" && S.surveys.post.recommend === null;
   if (missing.length || needRec) {
     const w = document.getElementById("surveyWarn");
-    if (w) w.innerHTML = `<b style="color:var(--coral-dark)">Almost — ${missing.length + (needRec ? 1 : 0)} question${missing.length + (needRec ? 1 : 0) > 1 ? "s" : ""} still unanswered.</b>`;
+    if (w) w.innerHTML = `<b style="color:var(--coral-dark)">Almost there: ${missing.length + (needRec ? 1 : 0)} question${missing.length + (needRec ? 1 : 0) > 1 ? "s" : ""} still unanswered.</b>`;
     return false;
   }
   S.surveys[kind].date = todayISO();
@@ -987,7 +987,7 @@ function resultsHTML() {
     let a = pre[it.id], b = post[it.id];
     if (it.reverse) { a = 6 - a; b = 6 - b; }   // reverse-scored: higher = better
     const delta = b - a;
-    const arrow = delta > 0 ? `<b style="color:var(--teal-deep)">▲ +${delta}</b>` : delta < 0 ? `<b style="color:var(--coral-dark)">▼ ${delta}</b>` : `<span class="muted">—</span>`;
+    const arrow = delta > 0 ? `<b style="color:var(--teal-deep)">▲ +${delta}</b>` : delta < 0 ? `<b style="color:var(--coral-dark)">▼ ${delta}</b>` : `<span class="muted">no change</span>`;
     return `<tr><td style="white-space:normal;font-weight:600;color:var(--navy)">${esc(it.maps)}</td><td>${a}/5</td><td>${b}/5</td><td>${arrow}</td></tr>`;
   }).join("");
   const avg = arr => arr.reduce((s, x) => s + x, 0) / arr.length;
@@ -1002,7 +1002,7 @@ function resultsHTML() {
       <thead><tr><th>Area</th><th>Before</th><th>After</th><th>Change</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <div class="hint" style="margin-top:16px">Overall: <b>${preAvg.toFixed(1)} → ${postAvg.toFixed(1)} out of 5</b>${postAvg > preAvg ? " — that movement is yours. You earned it." : ""}</div>
+    <div class="hint" style="margin-top:16px">Overall: <b>${preAvg.toFixed(1)} → ${postAvg.toFixed(1)} out of 5</b>${postAvg > preAvg ? ". That movement is yours. You earned it." : ""}</div>
   </div>`;
 }
 
@@ -1015,7 +1015,7 @@ function certificateView() {
         <span class="pill navy">🔒 Almost there</span>
         <h1 style="margin-top:16px">Your certificate is waiting</h1>
         <p class="lede muted" style="max-width:36em;margin:0 auto 24px">
-          ${!surveyDone("pre") ? "Take the pre-program survey, complete all fifteen lessons, then take the final survey — and this page becomes yours."
+          ${!surveyDone("pre") ? "Take the pre-program survey, complete all fifteen lessons, then take the final survey, and this page becomes yours."
           : !allLessonsDone() ? `Complete the remaining lessons (${doneCount()} of ${allLessonIds.length} done), then take the final survey.`
           : "One step left: the final survey."}
         </p>
@@ -1098,18 +1098,18 @@ function coachView() {
       <div class="hope-orb-wrap">
         <div class="hope-glow" aria-hidden="true"></div>
         <div class="hope-ring" aria-hidden="true"></div>
-        <img src="${img(COACH_IMAGE)}" alt="${COACH_NAME}, your Thrive 55+ coach — an experienced nurse ready to listen">
+        <img src="${img(COACH_IMAGE)}" alt="${COACH_NAME}, your Thrive 55+ coach, an experienced nurse ready to listen">
       </div>
       <div class="hope-caption">
         <div class="name">${COACH_NAME}</div>
         <div class="role">Your Thrive 55+ career direction coach</div>
       </div>
 
-      <p class="lede muted center" style="max-width:36em;margin:18px auto 0">${COACH_NAME} walks the method with you — and she'll ask more questions than she answers. Bring whatever is on your mind: a strain you can't name, a strength you keep dismissing, a job posting you're unsure about.</p>
+      <p class="lede muted center" style="max-width:36em;margin:18px auto 0">${COACH_NAME} walks the method with you, and she'll ask more questions than she answers. Bring whatever is on your mind: a strain you can't name, a strength you keep dismissing, a job posting you're unsure about.</p>
 
       <div class="card pad" style="margin:26px 0;border-top:6px solid var(--teal)">
         <h3 style="margin-bottom:8px">Start the conversation</h3>
-        <p class="muted" style="margin-bottom:6px">Tap the round button with ${COACH_NAME}'s picture in the corner of this page. You can <b>speak</b> or <b>type</b> — whichever feels natural. Take your time; ${COACH_NAME} is patient.</p>
+        <p class="muted" style="margin-bottom:6px">Tap the round button with ${COACH_NAME}'s picture in the corner of this page. You can <b>speak</b> or <b>type</b>, whichever feels natural. Take your time; ${COACH_NAME} is patient.</p>
         <p class="muted" style="font-size:15px;margin:0">If the button doesn't appear after a moment, check your internet connection and reload the page.</p>
       </div>
 
@@ -1118,8 +1118,8 @@ function coachView() {
           <h3 style="font-size:19px">Good things to bring</h3>
           <ul style="margin:10px 0 0;font-size:16px">
             <li>“Help me figure out which load is wearing me down most.”</li>
-            <li>“I can't think of five strengths — everything feels ordinary.”</li>
-            <li>“Here's what a job posting says — what should I look closer at?”</li>
+            <li>“I can't think of five strengths. Everything feels ordinary.”</li>
+            <li>“Here's what a job posting says. What should I look closer at?”</li>
             <li>“Help me practice what to ask a utilization review nurse.”</li>
             <li>“I said I'd read five postings this week. I didn't. Now what?”</li>
           </ul>
@@ -1127,8 +1127,8 @@ function coachView() {
         <div class="card pad">
           <h3 style="font-size:19px">What ${COACH_NAME} won't do</h3>
           <ul style="margin:10px 0 0;font-size:16px">
-            <li>Give financial, legal, or medical advice — income and benefits questions belong in the financial section of the class.</li>
-            <li>Tell you to quit, or to stay. The decision is yours — the coach helps you make it <em>informed</em>.</li>
+            <li>Give financial, legal, or medical advice. Income and benefits questions belong in the financial section of the class.</li>
+            <li>Tell you to quit, or to stay. The decision is yours. Hope helps you make it <em>informed</em>.</li>
             <li>Make up facts about employers or salaries. Real numbers come from your reconnaissance.</li>
           </ul>
         </div>
@@ -1170,7 +1170,7 @@ function notFoundView() {
   <section>
     <div class="wrap narrow center" style="padding:60px 0">
       <h1>Page not found</h1>
-      <p class="muted">That page doesn't exist — but your next step does.</p>
+      <p class="muted">That page doesn't exist, but your next step does.</p>
       <a class="btn" href="#/">Back to home</a>
     </div>
   </section>`;
