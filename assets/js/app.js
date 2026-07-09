@@ -261,20 +261,18 @@ function homeView() {
   <section>
     <div class="wrap">
       <div class="center" style="max-width:680px;margin:0 auto 36px">
-        <span class="eyebrow">Free reads while you decide</span>
+        <span class="eyebrow">A free read while you decide</span>
         <h2>Not ready yet? Start here.</h2>
       </div>
-      <div class="grid cols-2">
-        ${ARTICLES.map(a => `
-        <a class="card article-card" href="#/article/${a.id}">
-          <div class="a-img"><img src="${img(a.image)}" alt=""></div>
-          <div class="body">
-            <span class="pill teal">${a.minutes} min read</span>
-            <h3 style="margin-top:12px">${esc(a.title)}</h3>
-            <p class="muted" style="margin:0">${esc(a.subtitle)}</p>
-          </div>
-        </a>`).join("")}
-      </div>
+      ${(a => `
+      <a class="card article-card" href="#/article/${a.id}" style="max-width:560px;margin:0 auto">
+        <div class="a-img"><img src="${img(a.image)}" alt=""></div>
+        <div class="body">
+          <span class="pill teal">${a.minutes} min read</span>
+          <h3 style="margin-top:12px">${esc(a.title)}</h3>
+          <p class="muted" style="margin:0">${esc(a.subtitle)}</p>
+        </div>
+      </a>`)(ARTICLES[0])}
     </div>
   </section>`;
 }
