@@ -4,6 +4,8 @@
    Curriculum Map, Course Design Blueprint, and program articles.
    ============================================================ */
 
+const COACH_AGENT_ID = "agent_1901kx225dd5fsjtr9v1q2swdfcm";
+
 const BRAND = {
   name: "Thrive 55+",
   tagline: "Name the strain. Capture your value. Investigate your options.",
