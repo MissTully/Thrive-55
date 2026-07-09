@@ -12,8 +12,8 @@ const BRAND = {
   name: "Thrive 55+",
   tagline: "Name the strain. Capture your value. Investigate your options.",
   founder: "Sue Adair, BSN, RN",
-  founderTitle: "Founder, Thrive 55+ Nursing Advantage™",
-  copyright: "© 2026 Sue Adair | Thrive 55+ Nursing Advantage™. All rights reserved."
+  founderTitle: "Founder, Thrive 55+ Nursing Advantage",
+  copyright: "© 2026 Sue Adair | Thrive 55+ Nursing Advantage. All rights reserved."
 };
 
 /* ---------- The Method ---------- */
@@ -105,7 +105,7 @@ const LESSONS = {
     title: "You're Not Done — Start Here",
     bigIdea: "Career direction is not one decision made in a panic; it is a method you can learn, repeat, and walk with a cohort beside you.",
     objectives: [
-      "Describe the three parts of the Career Direction Method™ — name the strain, capture your value, investigate your options — and how the six weeks map to them.",
+      "Describe the three parts of the Career Direction Method — name the strain, capture your value, investigate your options — and how the six weeks map to them.",
       "Locate the workbook, the cohort space, and the weekly Learn → Do → Share loop.",
       "Write one intention for what you want to leave the program with."
     ],
@@ -401,6 +401,41 @@ const CQE = [
   { concern: "I will need another degree.", question: "Is additional education required, preferred, or unnecessary?", evidence: "Posting and recruiter" }
 ];
 
+/* ---------- Pre/Post Outcomes Survey ----------
+   Matched-item self-assessment aligned to the program's learning
+   objectives (career decision self-efficacy framing). Same seven
+   items before and after the program so change can be measured.
+   Career-focused only — no health information is ever collected. */
+const LIKERT = ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"];
+
+const SURVEY_ITEMS = [
+  { id: "strain",  text: "I can clearly name what is wearing me down in my current role.", maps: "Name the Strain" },
+  { id: "value",   text: "I can describe the specific strengths and value I would bring to a next role.", maps: "Capture Your Value" },
+  { id: "recon",   text: "I know how to investigate a role — postings, conversations, and comparisons — before applying.", maps: "Investigate Your Options" },
+  { id: "confid",  text: "I am confident I can find a way of working that fits my body, my life, and my experience.", maps: "Career confidence" },
+  { id: "step",    text: "I have a specific, informed next step for my career direction, and I know when I will take it.", maps: "One informed step" },
+  { id: "fear",    text: "When I think about my career future, fear makes most of my decisions.", maps: "Fear → information", reverse: true },
+  { id: "finance", text: "I know which income and benefit questions I need to answer before making a work change.", maps: "Financial readiness" }
+];
+
+const SURVEY_POST_OPEN = [
+  { id: "changed", label: "What changed for you during this program?" },
+  { id: "improve", label: "What should we improve for the next cohort?" }
+];
+
+/* ---------- Certificate ---------- */
+const CERT = {
+  title: "Certificate of Completion",
+  presented: "proudly presented to",
+  forCompleting: "for completing",
+  program: "The Thrive 55+ Career Direction Method",
+  detail: "a six-week program of naming the strain, capturing your value, and investigating your options",
+  message: "You are not done — you are evolving. Carry your years of judgment, steadiness, and care into work that honors them, one informed step at a time.",
+  tagline: "Name the strain. Capture your value. Investigate your options.",
+  signer: "Sue Adair, BSN, RN",
+  signerTitle: "Founder, Thrive 55+ Nursing Advantage"
+};
+
 /* ---------- Articles ---------- */
 const ARTICLES = [
   {
@@ -417,7 +452,7 @@ const ARTICLES = [
       },
       {
         h: "Your career isn't broken — your “load” is",
-        p: ["When the workday feels overwhelming, it is easy to assume you are losing your edge or that your career has reached its expiration date. Shift instead from a state of panic to a state of information-gathering. The Thrive 55+ Career Direction Method™ defines three specific types of load: body load (lifting, reaching, transferring, longer recovery), interruption load (alarms, call lights, documentation loops, constant task-switching), and change load (adapting to new systems while still expected to perform at full speed).",
+        p: ["When the workday feels overwhelming, it is easy to assume you are losing your edge or that your career has reached its expiration date. Shift instead from a state of panic to a state of information-gathering. The Thrive 55+ Career Direction Method defines three specific types of load: body load (lifting, reaching, transferring, longer recovery), interruption load (alarms, call lights, documentation loops, constant task-switching), and change load (adapting to new systems while still expected to perform at full speed).",
         "Identifying which of these loads is highest is a psychological game-changer. It transforms a vague feeling of failure into a concrete map. The highest score does not tell you to panic — it tells you where to look first."]
       },
       {

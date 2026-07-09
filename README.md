@@ -1,6 +1,6 @@
 # Thrive 55+ — Career Direction Program (browser app, v1)
 
-A self-contained, browser-based learning app for **The Thrive 55+ Career Direction Method™** — a career direction program for experienced nurses 55+ by Sue Adair, BSN, RN (Thrive 55+ Nursing Advantage™).
+A self-contained, browser-based learning app for **The Thrive 55+ Career Direction Method** — a career direction program for experienced nurses 55+ by Sue Adair, BSN, RN (Thrive 55+ Nursing Advantage).
 
 > Name the strain. Capture your value. Investigate your options.
 
@@ -38,4 +38,4 @@ Brand palette per the course design blueprint: teal `#187878`, navy `#1B3A5B`, c
 
 ---
 
-© 2026 Sue Adair | Thrive 55+ Nursing Advantage™. All rights reserved.
+© 2026 Sue Adair | Thrive 55+ Nursing Advantage. All rights reserved.

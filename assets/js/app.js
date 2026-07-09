@@ -26,7 +26,12 @@ const defaultState = () => ({
   nextStep: null,                // index into NEXT_STEPS
   nextStepBy: "",
   nextStepLearn: "",
-  intention: ""
+  intention: "",
+  surveys: {
+    pre:  { answers: {}, date: null },
+    post: { answers: {}, open: {}, recommend: null, date: null }
+  },
+  certName: ""
 });
 
 let S = load();
@@ -55,6 +60,14 @@ const highestStrain = () => {
   const entries = STRAIN_AREAS.map(a => [a, S.strain[a.key]]);
   entries.sort((x, y) => y[1] - x[1]);
   return entries[0];
+};
+const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
+const allLessonsDone = () => doneCount() === allLessonIds.length;
+const certEarned = () => surveyDone("pre") && surveyDone("post");
+const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const todayISO = () => {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 };
 
 /* ============================================================
@@ -104,7 +117,7 @@ function footerHTML() {
         </div>
       </div>
       <div class="fineprint">
-        <p style="margin-bottom:6px">The Thrive 55+ Career Direction Method™ is original to Thrive 55+ Nursing Advantage™ and reflects Sue Adair's professional experience, coaching work, and educational design.</p>
+        <p style="margin-bottom:6px">The Thrive 55+ Career Direction Method is original to Thrive 55+ Nursing Advantage and reflects Sue Adair's professional experience, coaching work, and educational design.</p>
         <p style="margin:0">${esc(BRAND.copyright)}</p>
       </div>
     </div>
@@ -137,7 +150,7 @@ function homeView() {
       </div>
       <div class="hero-img">
         <img src="${img("hero-walking.jpg")}" alt="Two experienced nurses walking and talking outside a healthcare building">
-        <div class="hero-badge"><b>The Thrive 55+ Career Direction Method™</b>${esc(BRAND.tagline)}</div>
+        <div class="hero-badge"><b>The Thrive 55+ Career Direction Method</b>${esc(BRAND.tagline)}</div>
       </div>
     </div>
   </section>
@@ -257,6 +270,28 @@ function programView() {
         </div>
         <div class="progress-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Program progress"><span style="width:${pct}%"></span></div>
       </div>
+      ${!surveyDone("pre") ? `
+      <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="max-width:36em">
+          <h3 style="font-size:19px">First: capture your starting point</h3>
+          <p style="margin:0">A five-minute survey before lesson one. At the end of the program you'll answer the same questions — and see exactly how far you've come.</p>
+        </div>
+        <a class="btn coral" href="#/survey/pre">Take the pre-program survey</a>
+      </div>` : allLessonsDone() && !surveyDone("post") ? `
+      <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="max-width:36em">
+          <h3 style="font-size:19px">You've finished every lesson 🎉</h3>
+          <p style="margin:0">One last step: the final survey. Complete it to see your before-and-after results and receive your certificate of completion.</p>
+        </div>
+        <a class="btn coral" href="#/survey/post">Take the final survey</a>
+      </div>` : certEarned() ? `
+      <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="max-width:36em">
+          <h3 style="font-size:19px">Certificate earned</h3>
+          <p style="margin:0">Your before-and-after results and your certificate are ready whenever you want them.</p>
+        </div>
+        <a class="btn coral" href="#/certificate">View my certificate</a>
+      </div>` : ""}
     </div>
   </section>
 
@@ -353,6 +388,8 @@ function lessonView(id) {
       <div class="lesson-nav">
         ${prev ? `<a class="btn ghost" href="#/lesson/${prev}">← ${esc(LESSONS[prev].title)}</a>` : "<span></span>"}
         ${next ? `<a class="btn" href="#/lesson/${next}">${esc(LESSONS[next].title)} →</a>`
+               : allLessonsDone() && !surveyDone("post") ? `<a class="btn coral" href="#/survey/post">Take the final survey →</a>`
+               : certEarned() ? `<a class="btn coral" href="#/certificate">My results &amp; certificate →</a>`
                : `<a class="btn coral" href="#/workbook#wb-summary">Finish in your workbook →</a>`}
       </div>
     </div>
@@ -776,6 +813,210 @@ function articleView(id) {
 }
 
 /* ============================================================
+   OUTCOMES SURVEYS (pre / post)
+   ============================================================ */
+function surveyView(kind) {
+  if (kind !== "pre" && kind !== "post") return notFoundView();
+  const isPre = kind === "pre";
+  if (surveyDone(kind)) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:40px 0">
+        <span class="pill teal">✔ Completed ${fmtDate(S.surveys[kind].date)}</span>
+        <h1 style="margin-top:16px">${isPre ? "Your starting point is saved" : "Thank you — your final survey is in"}</h1>
+        <p class="lede muted" style="max-width:34em;margin:0 auto 24px">${isPre
+          ? "You've captured where you're starting from. When you finish the program, the final survey will show how far you've come."
+          : "Your before-and-after results are ready, and so is your certificate."}</p>
+        ${isPre
+          ? `<a class="btn big" href="#/program">Go to the program</a>`
+          : `<a class="btn big coral" href="#/certificate">See my results &amp; certificate</a>`}
+      </div>
+    </section>`;
+  }
+  if (!isPre && !allLessonsDone()) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:40px 0">
+        <span class="pill navy">🔒 Not yet</span>
+        <h1 style="margin-top:16px">Finish the program first</h1>
+        <p class="lede muted" style="max-width:34em;margin:0 auto 24px">The final survey opens after your last lesson — you've completed ${doneCount()} of ${allLessonIds.length}. That's what makes your before-and-after comparison honest.</p>
+        <a class="btn big" href="#/program">Back to the program</a>
+      </div>
+    </section>`;
+  }
+  const saved = S.surveys[kind].answers || {};
+  return `
+  <section class="tight">
+    <div class="wrap narrow">
+      <span class="eyebrow" style="margin-top:20px">${isPre ? "Before you begin" : "The final step"}</span>
+      <h1 style="font-size:clamp(28px,4vw,40px)">${isPre ? "Where are you starting from?" : "How far have you come?"}</h1>
+      <p class="lede muted" style="max-width:40em">${isPre
+        ? "Seven statements, about five minutes. Answer honestly — this is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed."
+        : "The same seven statements you answered at the start. Answer for how things are today — then we'll show you the before and after, and your certificate."}</p>
+      <p class="muted" style="font-size:14.5px">Your answers stay in this browser. No health information is asked, ever.</p>
+
+      <form id="surveyForm" onsubmit="return submitSurvey('${kind}')">
+        ${SURVEY_ITEMS.map((it, n) => `
+        <fieldset class="card survey-item">
+          <legend>${n + 1}. ${esc(it.text)}</legend>
+          <div class="likert" role="radiogroup">
+            ${LIKERT.map((lab, i) => `
+            <label class="likert-opt ${saved[it.id] === i + 1 ? "selected" : ""}">
+              <input type="radio" name="q_${it.id}" value="${i + 1}" ${saved[it.id] === i + 1 ? "checked" : ""} required
+                onchange="S.surveys['${kind}'].answers['${it.id}']=${i + 1};save();this.closest('.likert').querySelectorAll('.likert-opt').forEach(o=>o.classList.remove('selected'));this.closest('.likert-opt').classList.add('selected')">
+              <span class="num">${i + 1}</span>
+              <span class="lab">${lab}</span>
+            </label>`).join("")}
+          </div>
+        </fieldset>`).join("")}
+
+        ${!isPre ? `
+        <fieldset class="card survey-item">
+          <legend>How likely are you to recommend this program to another experienced nurse?</legend>
+          <div class="likert nps" role="radiogroup">
+            ${Array.from({ length: 11 }, (_, i) => `
+            <label class="likert-opt ${S.surveys.post.recommend === i ? "selected" : ""}">
+              <input type="radio" name="q_recommend" value="${i}" ${S.surveys.post.recommend === i ? "checked" : ""} required
+                onchange="S.surveys.post.recommend=${i};save();this.closest('.likert').querySelectorAll('.likert-opt').forEach(o=>o.classList.remove('selected'));this.closest('.likert-opt').classList.add('selected')">
+              <span class="num">${i}</span>
+            </label>`).join("")}
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-top:4px"><span>Not at all likely</span><span>Extremely likely</span></div>
+        </fieldset>
+        ${SURVEY_POST_OPEN.map(q => `
+        <div class="card survey-item">
+          <label for="open_${q.id}" style="margin-top:0;font-size:17px">${esc(q.label)}</label>
+          <textarea id="open_${q.id}" oninput="S.surveys.post.open['${q.id}']=this.value;save()">${esc(S.surveys.post.open[q.id] || "")}</textarea>
+        </div>`).join("")}` : ""}
+
+        <div class="center" style="margin-top:26px">
+          <button class="btn big ${isPre ? "" : "coral"}" type="submit">${isPre ? "Save my starting point" : "Finish — show my results"}</button>
+          <p class="muted" id="surveyWarn" style="font-size:14.5px;margin-top:10px"></p>
+        </div>
+      </form>
+    </div>
+  </section>`;
+}
+
+function submitSurvey(kind) {
+  const answers = S.surveys[kind].answers || {};
+  const missing = SURVEY_ITEMS.filter(it => !answers[it.id]);
+  const needRec = kind === "post" && S.surveys.post.recommend === null;
+  if (missing.length || needRec) {
+    const w = document.getElementById("surveyWarn");
+    if (w) w.innerHTML = `<b style="color:var(--coral-dark)">Almost — ${missing.length + (needRec ? 1 : 0)} question${missing.length + (needRec ? 1 : 0) > 1 ? "s" : ""} still unanswered.</b>`;
+    return false;
+  }
+  S.surveys[kind].date = todayISO();
+  save();
+  location.hash = kind === "pre" ? "#/program" : "#/certificate";
+  return false;
+}
+
+/* ============================================================
+   RESULTS + CERTIFICATE
+   ============================================================ */
+function resultsHTML() {
+  const pre = S.surveys.pre.answers, post = S.surveys.post.answers;
+  const rows = SURVEY_ITEMS.map(it => {
+    let a = pre[it.id], b = post[it.id];
+    if (it.reverse) { a = 6 - a; b = 6 - b; }   // reverse-scored: higher = better
+    const delta = b - a;
+    const arrow = delta > 0 ? `<b style="color:var(--teal-deep)">▲ +${delta}</b>` : delta < 0 ? `<b style="color:var(--coral-dark)">▼ ${delta}</b>` : `<span class="muted">—</span>`;
+    return `<tr><td style="white-space:normal;font-weight:600;color:var(--navy)">${esc(it.maps)}</td><td>${a}/5</td><td>${b}/5</td><td>${arrow}</td></tr>`;
+  }).join("");
+  const avg = arr => arr.reduce((s, x) => s + x, 0) / arr.length;
+  const preAvg = avg(SURVEY_ITEMS.map(it => it.reverse ? 6 - pre[it.id] : pre[it.id]));
+  const postAvg = avg(SURVEY_ITEMS.map(it => it.reverse ? 6 - post[it.id] : post[it.id]));
+  return `
+  <div class="card pad" style="margin-bottom:30px">
+    <span class="eyebrow">Your outcomes</span>
+    <h2 style="font-size:26px">Before and after</h2>
+    <p class="muted">Your self-assessment across the program's objectives (higher is better; the fear item is scored so that less fear-driven = higher).</p>
+    <table class="guide-table">
+      <thead><tr><th>Area</th><th>Before</th><th>After</th><th>Change</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="hint" style="margin-top:16px">Overall: <b>${preAvg.toFixed(1)} → ${postAvg.toFixed(1)} out of 5</b>${postAvg > preAvg ? " — that movement is yours. You earned it." : ""}</div>
+  </div>`;
+}
+
+function certificateView() {
+  if (!certEarned()) {
+    const canPost = allLessonsDone() && surveyDone("pre");
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:40px 0">
+        <span class="pill navy">🔒 Almost there</span>
+        <h1 style="margin-top:16px">Your certificate is waiting</h1>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 24px">
+          ${!surveyDone("pre") ? "Take the pre-program survey, complete all fifteen lessons, then take the final survey — and this page becomes yours."
+          : !allLessonsDone() ? `Complete the remaining lessons (${doneCount()} of ${allLessonIds.length} done), then take the final survey.`
+          : "One step left: the final survey."}
+        </p>
+        ${canPost ? `<a class="btn big coral" href="#/survey/post">Take the final survey</a>` : `<a class="btn big" href="#/program">Back to the program</a>`}
+        <div style="margin-top:18px"><button class="btn ghost sm" onclick="document.getElementById('certSample').style.display='block';this.style.display='none'">Peek at a sample certificate</button></div>
+      </div>
+      <div id="certSample" style="display:none">${certHTML("A Thrive 55+ Graduate", todayISO(), true)}</div>
+    </section>`;
+  }
+  const name = S.certName || "";
+  return `
+  <section class="tight">
+    <div class="wrap narrow no-cert-print">
+      <span class="eyebrow" style="margin-top:20px">Congratulations</span>
+      <h1 style="font-size:clamp(28px,4vw,40px)">You finished. This is yours.</h1>
+      ${resultsHTML()}
+      <div class="card pad" style="margin-bottom:26px">
+        <label for="certName" style="margin-top:0">Your name as you'd like it on the certificate</label>
+        <input type="text" id="certName" value="${esc(name)}" placeholder="e.g. Karen R. Mitchell, RN"
+          oninput="S.certName=this.value;save();document.getElementById('certNameLine').textContent=this.value||'Your Name'">
+        <div class="wb-actions" style="margin-top:14px">
+          <button class="btn coral" onclick="window.print()">🖨 Print my certificate</button>
+          <span class="muted" style="font-size:14px;align-self:center">Choose <b>Landscape</b> in the print dialog for best results.</span>
+        </div>
+      </div>
+    </div>
+    ${certHTML(name || "Your Name", S.surveys.post.date, false)}
+  </section>`;
+}
+
+function certHTML(name, dateISO, sample) {
+  return `
+  <div class="cert-stage${sample ? " cert-sample" : ""}">
+    <div class="certificate" role="img" aria-label="Certificate of completion for ${esc(name)}">
+      <div class="cert-inner">
+        ${sample ? '<div class="cert-ribbon">SAMPLE</div>' : ""}
+        <div class="cert-brand">Thrive <b>55+</b> <span class="cert-sprout">❧</span></div>
+        <div class="cert-sub">Nursing Advantage · The Career Direction Program</div>
+        <h2 class="cert-title">${esc(CERT.title)}</h2>
+        <div class="cert-rule"><span>✦</span></div>
+        <p class="cert-presented">${esc(CERT.presented)}</p>
+        <div class="cert-name" id="${sample ? "" : "certNameLine"}">${esc(name)}</div>
+        <p class="cert-presented">${esc(CERT.forCompleting)}</p>
+        <p class="cert-program">${esc(CERT.program)}</p>
+        <p class="cert-detail">${esc(CERT.detail)}</p>
+        <p class="cert-message">“${esc(CERT.message)}”</p>
+        <div class="cert-tagline">${esc(CERT.tagline)}</div>
+        <div class="cert-footer">
+          <div class="cert-sig">
+            <div class="cert-line"></div>
+            <b>${esc(CERT.signer)}</b>
+            <span>${esc(CERT.signerTitle)}</span>
+          </div>
+          <div class="cert-seal" aria-hidden="true"><span>55<i>+</i></span><em>❧</em></div>
+          <div class="cert-sig">
+            <div class="cert-line"></div>
+            <b>${dateISO ? esc(fmtDate(dateISO)) : ""}</b>
+            <span>Date of completion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
    MY COACH (ElevenLabs conversational agent)
    ============================================================ */
 function coachView() {
@@ -882,6 +1123,8 @@ function route() {
     case "program": return { view: programView, nav: "program", args: [] };
     case "lesson": return { view: lessonView, nav: "program", args: [parts[1]] };
     case "coach": return { view: coachView, nav: "coach", args: [] };
+    case "survey": return { view: surveyView, nav: "program", args: [parts[1]] };
+    case "certificate": return { view: certificateView, nav: "program", args: [] };
     case "workbook": return { view: workbookView, nav: "workbook", args: [] };
     case "roles": return { view: rolesView, nav: "roles", args: [] };
     case "resources": return { view: resourcesView, nav: "resources", args: [] };
@@ -892,6 +1135,20 @@ function route() {
 
 function render() {
   const r = route();
+  const hash = (location.hash || "#/").split("#")[1] || "/";
+  document.body.dataset.route = hash.startsWith("/certificate") ? "certificate" : r.nav;
+  // Landscape page setup only while on the certificate route
+  let ps = document.getElementById("cert-print-style");
+  if (hash.startsWith("/certificate")) {
+    if (!ps) {
+      ps = document.createElement("style");
+      ps.id = "cert-print-style";
+      ps.textContent = "@page { size: Letter landscape; margin: 0.35in; }";
+      document.head.appendChild(ps);
+    }
+  } else if (ps) {
+    ps.remove();
+  }
   document.getElementById("app").innerHTML =
     navHTML(r.nav) +
     `<main id="main" class="fadein">${r.view(...r.args)}</main>` +
