@@ -64,7 +64,10 @@ const highestStrain = () => {
 };
 const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
 const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
-function attendWebinar(wId) { S.webinars[wId] = true; save(); render(); }
+function attendWebinar(wId) {
+  if (!surveyDone("pre")) { location.hash = "#/survey/pre"; return; }
+  S.webinars[wId] = true; save(); render();
+}
 const allLessonsDone = () => doneCount() === allLessonIds.length;
 const certEarned = () => surveyDone("pre") && surveyDone("post");
 const fmtDate = iso => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
@@ -139,10 +142,16 @@ function homeView() {
         <span class="pill coral">For nurses 55+ · Cohort program · Live weekly webinars</span>
         <h1>You're not done.<br>You're just <em style="color:var(--teal);font-style:normal">evolving</em>.</h1>
         <p class="lede">A six-week journey you take <b>with a cohort of nurses like you</b> — anchored by live weekly webinars with Sue and Alyson. Learn together, share what you find, and turn the dread of the next shift into your next informed step.</p>
+        ${surveyDone("pre") ? `
         <div class="hero-ctas">
-          <a class="btn big" href="#/program">${pct > 0 ? "Continue the program" : "Start the program"}</a>
+          <a class="btn big" href="#/program">${pct > 0 ? "Continue the program" : "Go to the program"}</a>
           <a class="btn big ghost" href="#/workbook">Open my workbook</a>
+        </div>` : `
+        <div class="hero-ctas">
+          <a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>
+          <a class="btn big ghost" href="#/program">See the six-week journey</a>
         </div>
+        <p class="muted" style="font-size:15px;margin-top:14px;max-width:32em">The five-minute survey is your key: it captures where you're starting from and unlocks the program materials and your workbook.</p>`}
         ${pct > 0 ? `
         <div style="margin-top:26px;max-width:420px">
           <div style="display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:6px">
@@ -287,10 +296,10 @@ function programView() {
       ${!surveyDone("pre") ? `
       <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
         <div style="max-width:36em">
-          <h3 style="font-size:19px">First: capture your starting point</h3>
-          <p style="margin:0">A five-minute survey before lesson one. At the end of the program you'll answer the same questions — and see exactly how far you've come.</p>
+          <h3 style="font-size:19px">🔑 First: capture your starting point</h3>
+          <p style="margin:0">A five-minute survey is the key to the program — it unlocks your workbook and each week's materials, and at the end you'll answer the same questions to see exactly how far you've come.</p>
         </div>
-        <a class="btn coral" href="#/survey/pre">Take the pre-program survey</a>
+        <a class="btn coral" href="#/survey/pre">Take the starting-point survey</a>
       </div>` : allLessonsDone() && !surveyDone("post") ? `
       <div class="callout-coral" style="margin-top:22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap">
         <div style="max-width:36em">
@@ -331,7 +340,9 @@ function programView() {
               </div>
               ${unlocked
                 ? `<span class="pill teal" style="flex-shrink:0">✔ Attended</span>`
-                : `<button class="btn coral sm" style="flex-shrink:0" onclick="attendWebinar('${w.id}')">I attended — unlock</button>`}
+                : surveyDone("pre")
+                  ? `<button class="btn coral sm" style="flex-shrink:0" onclick="attendWebinar('${w.id}')">I attended — unlock</button>`
+                  : `<a class="btn coral sm" style="flex-shrink:0" href="#/survey/pre">🔑 Survey first</a>`}
             </div>
             <div>
               ${w.lessons.map(id => {
@@ -556,6 +567,17 @@ function nextStepHTML() {
    WORKBOOK
    ============================================================ */
 function workbookView() {
+  if (!surveyDone("pre")) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:48px 0">
+        <span class="pill coral">🔑 One step first</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">Your workbook opens with the starting-point survey</h1>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">Five minutes, seven honest statements — your baseline. At the end of the program you'll answer the same questions and see exactly how far you've come. It unlocks your workbook and the weekly program materials.</p>
+        <div style="margin-top:24px"><a class="btn big coral" href="#/survey/pre">Take the survey — unlock my workbook</a></div>
+      </div>
+    </section>`;
+  }
   const [top, topScore] = highestStrain();
   const strengthsNamed = S.strengths.filter(s => s.trim());
   return `
@@ -866,12 +888,12 @@ function surveyView(kind) {
     <section>
       <div class="wrap narrow center" style="padding:40px 0">
         <span class="pill teal">✔ Completed ${fmtDate(S.surveys[kind].date)}</span>
-        <h1 style="margin-top:16px">${isPre ? "Your starting point is saved" : "Thank you — your final survey is in"}</h1>
+        <h1 style="margin-top:16px">${isPre ? "You're in — the program is unlocked" : "Thank you — your final survey is in"}</h1>
         <p class="lede muted" style="max-width:34em;margin:0 auto 24px">${isPre
-          ? "You've captured where you're starting from. When you finish the program, the final survey will show how far you've come."
+          ? "Your starting point is saved, and your workbook and program materials are now open. When you finish the program, the final survey will show how far you've come."
           : "Your before-and-after results are ready, and so is your certificate."}</p>
         ${isPre
-          ? `<a class="btn big" href="#/program">Go to the program</a>`
+          ? `<a class="btn big" href="#/program">Go to the program</a> <a class="btn big ghost" href="#/workbook">Open my workbook</a>`
           : `<a class="btn big coral" href="#/certificate">See my results &amp; certificate</a>`}
       </div>
     </section>`;
@@ -894,7 +916,7 @@ function surveyView(kind) {
       <span class="eyebrow" style="margin-top:20px">${isPre ? "Before you begin" : "The final step"}</span>
       <h1 style="font-size:clamp(28px,4vw,40px)">${isPre ? "Where are you starting from?" : "How far have you come?"}</h1>
       <p class="lede muted" style="max-width:40em">${isPre
-        ? "Seven statements, about five minutes. Answer honestly — this is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed."
+        ? "Seven statements, about five minutes. Answer honestly — this is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed. Finishing unlocks your workbook and the program materials."
         : "The same seven statements you answered at the start. Answer for how things are today — then we'll show you the before and after, and your certificate."}</p>
       <p class="muted" style="font-size:14.5px">Your answers stay in this browser. No health information is asked, ever.</p>
 
