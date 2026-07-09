@@ -66,6 +66,21 @@ const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].da
 const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
 const articleWeek = id => WEEKS.find(w => w.reading === id);
 const coachUnlocked = () => weekUnlocked("w0");   // Hope joins after the kickoff webinar
+function kickoffGateView(title, body) {
+  return `
+  <section>
+    <div class="wrap narrow center" style="padding:48px 0">
+      <span class="pill navy">🔒 Opens with your cohort</span>
+      <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">${title}</h1>
+      <p class="lede muted" style="max-width:36em;margin:0 auto 10px">${body}</p>
+      <div style="margin-top:24px">
+        ${surveyDone("pre")
+          ? `<a class="btn big" href="#/program">Go to the program</a>`
+          : `<a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>`}
+      </div>
+    </div>
+  </section>`;
+}
 function attendWebinar(wId) {
   if (!surveyDone("pre")) { location.hash = "#/survey/pre"; return; }
   S.webinars[wId] = true; save(); render();
@@ -785,6 +800,12 @@ function resetWorkbook() {
    ROLES EXPLORER
    ============================================================ */
 function rolesView() {
+  if (!weekUnlocked("w0")) {
+    return kickoffGateView(
+      "The Roles Explorer unlocks after your first webinar",
+      "Role categories, search titles, and the red-flag checklist are part of the program. Attend the Week 0 kickoff webinar with Sue and Alyson, unlock the week, and this whole explorer opens with it."
+    );
+  }
   return `
   <section class="tight">
     <div class="wrap">
@@ -840,6 +861,12 @@ function rolesView() {
    RESOURCES & ARTICLES
    ============================================================ */
 function resourcesView() {
+  if (!weekUnlocked("w0")) {
+    return kickoffGateView(
+      "Your reconnaissance toolkit unlocks after your first webinar",
+      "The job research, interview preparation, and AI upskilling resources are part of the program. Attend the Week 0 kickoff webinar with Sue and Alyson, unlock the week, and the toolkit opens with it."
+    );
+  }
   return `
   <section class="tight">
     <div class="wrap">
