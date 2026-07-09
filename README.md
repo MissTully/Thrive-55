@@ -40,6 +40,8 @@ webinars/             presenter slide decks for the live webinars
 
 `webinars/week0-kickoff-slides.html` is the presenter deck for the one-hour Week 0 kickoff webinar (cohort building, learning goals, program structure, and discussion prompts throughout). Open it in a browser and present full-screen: arrow keys / space / click to navigate, **N** toggles presenter notes with facilitation cues, **?** shows all shortcuts, and printing gives one slide per page. Each slide carries its slot in the 60-minute run of show.
 
+`webinars/Thrive55_Week0_Kickoff_Zoom.pptx` is the same kickoff deck as a PowerPoint for presenting over **Zoom** (also imports directly into Google Slides via File → Import slides). Every slide's speaker notes carry the run-of-show cue plus the exact Zoom steps for that moment — launching and sharing polls, opening 8-minute breakout rooms with auto-assign and countdown, running chat storms, Raise Hand for discussion, and screen-share swaps for the app tour. Slide 1 is a facilitator setup checklist (polls to pre-create, co-host duties) — hide it before presenting.
+
 Brand palette per the course design blueprint: teal `#187878`, navy `#1B3A5B`, coral `#E38E76` (accent only), warm cream backgrounds; Fraunces (headlines) + Inter (body), sized for readability at 55+.
 
 ---
