@@ -46,6 +46,7 @@ const WEEKS = [
   {
     id: "w0",
     webinar: "Kickoff: meet your cohort, meet Sue and Alyson, and set your intention",
+    reading: "bedside",
     label: "Week 0",
     title: "Orientation",
     theme: "Meet the cohort, see the whole map, set an intention.",
@@ -441,6 +442,50 @@ const CERT = {
   signer: "Sue Adair, BSN, RN",
   signerTitle: "Founder, Thrive 55+ Nursing Advantage"
 };
+
+
+/* ---------- Resource library: job research, interviews, AI upskilling ---------- */
+const RESOURCE_GROUPS = [
+  {
+    title: "Job research",
+    icon: "🔍",
+    blurb: "Reconnaissance fuel: where to set up alerts, read postings, and check real numbers.",
+    items: [
+      { name: "Indeed", url: "https://www.indeed.com", note: "Set up job alerts and let postings come to you. The five-postings exercise starts here." },
+      { name: "LinkedIn Jobs", url: "https://www.linkedin.com/jobs", note: "Search the titles from the Roles Explorer and see who you already know at each employer." },
+      { name: "Vivian Health", url: "https://www.vivian.com", note: "Healthcare-only job marketplace with pay ranges shown up front." },
+      { name: "Health eCareers", url: "https://www.healthecareers.com", note: "Nursing and allied health roles, including many beyond the bedside." },
+      { name: "USAJOBS (federal & VA)", url: "https://www.usajobs.gov", note: "Federal and VA nursing roles value deep experience and carry strong benefits." },
+      { name: "Bureau of Labor Statistics: Registered Nurses", url: "https://www.bls.gov/ooh/healthcare/registered-nurses.htm", note: "Real wage and outlook data for your salary questions." },
+      { name: "Glassdoor", url: "https://www.glassdoor.com", note: "Salaries and employee reviews. Useful for the red-flag check before you leap." }
+    ]
+  },
+  {
+    title: "Interview preparation",
+    icon: "🗣",
+    blurb: "Thirty years of stories, organized. Interview language improves with practice.",
+    items: [
+      { name: "Practice with Hope", url: "#/coach", internal: true, note: "Rehearse your answers out loud with your coach. She will ask the follow-up questions." },
+      { name: "AARP Work & Jobs", url: "https://www.aarp.org/work", note: "Job-search and interview advice written for experienced workers, including handling age bias." },
+      { name: "Indeed Career Guide", url: "https://www.indeed.com/career-advice", note: "The STAR story method and common questions, in plain language." },
+      { name: "Nurse.org", url: "https://www.nurse.org", note: "Nursing-specific interview guides and honest role explainers." },
+      { name: "LinkedIn Interview Prep", url: "https://www.linkedin.com/interview-prep", note: "Free practice questions with instant feedback, at your own pace." }
+    ]
+  },
+  {
+    title: "AI upskilling & tech confidence",
+    icon: "🤖",
+    blurb: "The hard part of technology is not understanding it. It is getting started.",
+    items: [
+      { name: "Senior Planet from AARP", url: "https://www.seniorplanet.org", note: "Free technology and AI classes designed for older adults, live and friendly." },
+      { name: "GCFGlobal", url: "https://edu.gcfglobal.org", note: "Free plain-language tutorials: spreadsheets, email, video calls, and AI basics." },
+      { name: "AI for Everyone (Coursera)", url: "https://www.coursera.org/learn/ai-for-everyone", note: "A gentle introduction to what AI is and is not. Free to audit, no tech background needed." },
+      { name: "Google AI Essentials", url: "https://grow.google", note: "Self-paced AI basics from Google's Grow program." },
+      { name: "Claude", url: "https://claude.ai", note: "Try the method's tech step: ask it to \"help me set up a basic job-research tracking spreadsheet.\"" },
+      { name: "ChatGPT", url: "https://chatgpt.com", note: "Same exercise, different assistant. Use whichever feels friendlier to you." }
+    ]
+  }
+];
 
 /* ---------- Articles ---------- */
 const ARTICLES = [

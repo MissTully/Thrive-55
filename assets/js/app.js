@@ -64,6 +64,8 @@ const highestStrain = () => {
 };
 const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
 const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
+const articleWeek = id => WEEKS.find(w => w.reading === id);
+const coachUnlocked = () => weekUnlocked("w0");   // Hope joins after the kickoff webinar
 function attendWebinar(wId) {
   if (!surveyDone("pre")) { location.hash = "#/survey/pre"; return; }
   S.webinars[wId] = true; save(); render();
@@ -119,7 +121,6 @@ function footerHTML() {
         <div>
           <h4>Learn</h4>
           <a href="#/article/evolving">You're Not Done, You're Just Evolving</a>
-          <a href="#/article/bedside">Beyond the Bedside</a>
         </div>
       </div>
       <div class="fineprint">
@@ -365,7 +366,20 @@ function programView() {
                 </div>`;
               }).join("")}
             </div>
-            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Lessons open after this week's live webinar. Your cohort's meeting day, time, and join link will be emailed to you.</p>` : ""}
+            ${w.reading ? (a => unlocked ? `
+            <a class="lesson-row" href="#/article/${a.id}">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">📖</span>
+            </a>` : `
+            <div class="lesson-row locked" aria-disabled="true">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">🔒</span>
+            </div>`)(ARTICLES.find(x => x.id === w.reading)) : ""}
+            ${!unlocked ? `<p class="muted" style="font-size:13.5px;margin:2px 0 12px">Materials open after this week's live webinar. Your cohort's meeting day, time, and join link will be emailed to you.</p>` : ""}
             <div class="mission"><b>This week's mission:</b> ${esc(w.mission)}</div>
           </div>
         </div>`;
@@ -830,33 +844,88 @@ function resourcesView() {
   <section class="tight">
     <div class="wrap">
       <span class="eyebrow" style="margin-top:20px">Resources</span>
-      <h1 style="font-size:clamp(30px,4vw,42px)">Read while you decide</h1>
-      <p class="lede muted" style="max-width:40em">Articles from the Thrive 55+ library, plus the method at a glance.</p>
-      <div class="grid cols-2" style="margin-top:26px">
-        ${ARTICLES.map(a => `
-        <a class="card article-card" href="#/article/${a.id}">
-          <div class="a-img"><img src="${img(a.image)}" alt=""></div>
-          <div class="body">
-            <span class="pill teal">${a.minutes} min read</span>
-            <h3 style="margin-top:12px">${esc(a.title)}</h3>
-            <p class="muted" style="margin:0">${esc(a.subtitle)}</p>
+      <h1 style="font-size:clamp(30px,4vw,42px)">Your reconnaissance toolkit</h1>
+      <p class="lede muted" style="max-width:42em">Trusted places to research roles, practice for interviews, and build tech confidence, chosen for experienced nurses. Every link opens in a new tab so you never lose your place here.</p>
+
+      <div class="grid cols-3" style="margin-top:26px;align-items:start">
+        ${RESOURCE_GROUPS.map(g => `
+        <div class="card role-card">
+          <h3>${g.icon} ${esc(g.title)}</h3>
+          <p class="blurb">${esc(g.blurb)}</p>
+          <ul class="res-list">
+            ${g.items.map(it => `
+            <li>
+              <a href="${it.url}" ${it.internal ? "" : 'target="_blank" rel="noopener"'}>
+                <b>${esc(it.name)}</b>${it.internal ? "" : ' <span class="ext" aria-hidden="true">↗</span>'}
+              </a>
+              <span class="res-note">${esc(it.note)}</span>
+            </li>`).join("")}
+          </ul>
+        </div>`).join("")}
+      </div>
+      <p class="muted" style="font-size:14px;margin-top:18px">Outside websites change and are not run by Thrive 55+. A listing is a starting point for your own reconnaissance, not an endorsement.</p>
+    </div>
+  </section>
+
+  <section class="tinted tight">
+    <div class="wrap">
+      <div class="grid cols-2" style="align-items:start">
+        <div>
+          <h2 style="font-size:26px">Put the toolkit to work</h2>
+          <p class="muted">These resources are the raw material for the method's missions: set up one job alert, read five postings without applying, check the real salary data, and rehearse your three-people questions before a real conversation.</p>
+          <a class="btn" href="#/program">Open the program</a>
+        </div>
+        <div>
+          <h2 style="font-size:26px">From the Thrive 55+ library</h2>
+          <div style="margin-top:14px">
+          ${ARTICLES.map(a => {
+            const w = articleWeek(a.id);
+            if (w && !weekUnlocked(w.id)) return `
+            <div class="lesson-row locked" aria-disabled="true">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${esc(w.label)}</span>
+              <span class="check">🔒</span>
+            </div>`;
+            return `
+            <a class="lesson-row" href="#/article/${a.id}">
+              <span class="code" style="background:var(--coral-tint);color:var(--coral-dark)">READ</span>
+              <span class="t">${esc(a.title)}</span>
+              <span class="mins">${a.minutes} min</span>
+              <span class="check">📖</span>
+            </a>`;
+          }).join("")}
           </div>
-        </a>`).join("")}
+        </div>
       </div>
     </div>
   </section>
+
+  ${surveyDone("pre") ? `
   <section class="tight">
     <div class="wrap">
       <h2 class="center" style="margin-bottom:22px">The method at a glance</h2>
       <img class="method-graphic" src="${img("method-graphic.jpg")}"
         alt="Infographic of the Thrive 55+ Career Direction Method: three pillars: name the strain (score body, interruption, and change loads 1–10), capture your value (identify the ordinary skills AI cannot duplicate), and investigate your options (study postings, talk to people, extract requirements), plus moving from fear to information.">
     </div>
-  </section>`;
+  </section>` : ""}`;
 }
 
 function articleView(id) {
   const A = ARTICLES.find(a => a.id === id);
   if (!A) return notFoundView();
+  const W = articleWeek(id);
+  if (W && !weekUnlocked(W.id)) {
+    return `
+    <section>
+      <div class="wrap narrow center" style="padding:48px 0">
+        <span class="pill navy">🔒 Program reading</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">This reading unlocks with your cohort</h1>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">"${esc(A.title)}" is part of ${esc(W.label)} · ${esc(W.title)}. Attend the webinar with Sue and Alyson, then come back. It opens with the rest of the week's materials.</p>
+        <div style="margin-top:24px"><a class="btn big" href="#/program">Go to the program</a></div>
+      </div>
+    </section>`;
+  }
   return `
   <section class="tight">
     <div class="wrap narrow">
@@ -1087,6 +1156,26 @@ function certHTML(name, dateISO, sample) {
    MY COACH (ElevenLabs conversational agent)
    ============================================================ */
 function coachView() {
+  if (!coachUnlocked()) {
+    return `
+    <section class="tight">
+      <div class="wrap narrow center" style="padding:40px 0">
+        <div class="hope-orb-wrap" style="width:min(220px,50vw);opacity:.85">
+          <div class="hope-glow" aria-hidden="true" style="animation:none;opacity:.5"></div>
+          <div class="hope-ring" aria-hidden="true" style="animation:none"></div>
+          <img src="${img(COACH_IMAGE)}" alt="${COACH_NAME}, your Thrive 55+ coach">
+        </div>
+        <span class="pill navy">🔒 Meet her at the kickoff</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">${COACH_NAME} joins you after your first webinar</h1>
+        <p class="lede muted" style="max-width:34em;margin:0 auto 10px">Your coach is part of the cohort experience. Attend the Week 0 kickoff webinar with Sue and Alyson, unlock the week, and ${COACH_NAME} will be here whenever you need to talk something through.</p>
+        <div style="margin-top:24px">
+          ${surveyDone("pre")
+            ? `<a class="btn big" href="#/program">Go to the program</a>`
+            : `<a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>`}
+        </div>
+      </div>
+    </section>`;
+  }
   const [top, topScore] = highestStrain();
   const step = S.nextStep !== null ? NEXT_STEPS[S.nextStep] : null;
   return `
@@ -1220,7 +1309,7 @@ function render() {
     navHTML(r.nav) +
     `<main id="main" class="fadein">${r.view(...r.args)}</main>` +
     footerHTML();
-  mountCoachWidget(r.nav === "coach");
+  mountCoachWidget(r.nav === "coach" && coachUnlocked());
 }
 
 let lastRoute = (location.hash || "#/").split("#")[1] || "/";
