@@ -51,6 +51,10 @@ function save() {
 const esc = s => String(s == null ? "" : s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const img = f => `assets/img/${f}`;
+const ytId = url => {
+  const m = String(url).match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([\w-]{11})/);
+  return m ? m[1] : url;
+};
 
 /* ---------- progress helpers ---------- */
 const allLessonIds = Object.keys(LESSONS);
@@ -370,7 +374,7 @@ function programView() {
                 <a class="lesson-row ${done ? "done" : ""}" href="#/lesson/${id}">
                   <span class="code">${L.code}</span>
                   <span class="t">${esc(L.title)}</span>
-                  <span class="mins">~${L.mins} min</span>
+                  <span class="mins">${L.video ? "▶ " : ""}~${L.mins} min</span>
                   <span class="check" aria-label="${done ? "Completed" : "Not completed"}">${done ? "✔" : "○"}</span>
                 </a>` : `
                 <div class="lesson-row locked" aria-disabled="true">
@@ -453,10 +457,14 @@ function lessonView(id) {
       </div>
       <h1 style="font-size:clamp(28px,4vw,40px);margin-top:14px">${esc(L.title)}</h1>
 
+      ${L.video ? `
+      <div class="lesson-video">
+        <iframe src="https://www.youtube-nocookie.com/embed/${ytId(L.video)}" title="${esc(L.videoTitle || L.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>` : `
       <div class="lesson-hero">
         <img src="${img(L.image)}" alt="">
         <div class="play-chip"><span><span class="tri" aria-hidden="true">▶</span> Video lesson · coming in version 2</span></div>
-      </div>
+      </div>`}
 
       <div class="bigidea"><span class="eyebrow" style="margin-bottom:6px">The big idea</span>${esc(L.bigIdea)}</div>
 
