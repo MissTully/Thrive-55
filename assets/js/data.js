@@ -409,20 +409,57 @@ const CQE = [
 ];
 
 /* ---------- Pre/Post Outcomes Survey ----------
-   Matched-item self-assessment aligned to the program's learning
-   objectives (career decision self-efficacy framing). Same seven
-   items before and after the program so change can be measured.
+   Matched-item self-assessment, answered before and after the program
+   so change can be measured. Design follows survey best practices:
+   - one construct per item, no double-barreled statements
+   - fully labeled 5-point scales with a true midpoint
+   - balanced keying (reverse-scored items counter acquiescence bias)
+   - behaviors measured with frequency scales, attitudes with agreement
+   - belief items paired with a confidence rating, so confidently held
+     misconceptions can be identified and re-measured after the program
+   Constructs draw on growth mindset (Dweck), career decision
+   self-efficacy (Betz & Taylor), possible selves / future work self,
+   and help-seeking & social learning research.
    Career-focused only — no health information is ever collected. */
 const LIKERT = ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"];
+const FREQ = ["Never", "Rarely", "Sometimes", "Often", "Very often"];
+const CONF = ["Not at all confident", "Slightly confident", "Moderately confident", "Very confident", "Extremely confident"];
+
+const SURVEY_SECTIONS = [
+  { id: "mindset", title: "Mindset", blurb: "How you think about change and learning right now. Answer for how things actually are today, not how you'd like them to be." },
+  { id: "career",  title: "Career clarity", blurb: "Where you stand with your current work and your options." },
+  { id: "future",  title: "Your future self", blurb: "How you picture the years ahead." },
+  { id: "social",  title: "Learning with others", blurb: "How often you actually do each of these — not how useful you think they are." }
+];
 
 const SURVEY_ITEMS = [
-  { id: "strain",  text: "I can clearly name what is wearing me down in my current role.", maps: "Name the Strain" },
-  { id: "value",   text: "I can describe the specific strengths and value I would bring to a next role.", maps: "Capture Your Value" },
-  { id: "recon",   text: "I know how to investigate a role (postings, conversations, and comparisons) before applying.", maps: "Investigate Your Options" },
-  { id: "confid",  text: "I am confident I can find a way of working that fits my body, my life, and my experience.", maps: "Career confidence" },
-  { id: "step",    text: "I have a specific, informed next step for my career direction, and I know when I will take it.", maps: "One informed step" },
-  { id: "fear",    text: "When I think about my career future, fear makes most of my decisions.", maps: "Fear → information", reverse: true },
-  { id: "finance", text: "I know which income and benefit questions I need to answer before making a job change.", maps: "Financial readiness" }
+  /* Mindset */
+  { id: "growth",  section: "mindset", text: "How I work — and what I am capable of learning — can still change substantially at this stage of my career.", maps: "Growth mindset" },
+  { id: "toolate", section: "mindset", text: "It is too late for someone at my stage to change career direction.", maps: "“Too late” belief", reverse: true },
+  /* Career clarity (career decision self-efficacy) */
+  { id: "strain",  section: "career", text: "I can clearly name what is wearing me down in my current role.", maps: "Name the Strain" },
+  { id: "value",   section: "career", text: "I can describe the specific strengths and value I would bring to a next role.", maps: "Capture Your Value" },
+  { id: "recon",   section: "career", text: "I know how to investigate a role (postings, conversations, and comparisons) before applying.", maps: "Investigate Your Options" },
+  { id: "fear",    section: "career", text: "When I think about my career future, fear makes most of my decisions.", maps: "Fear → information", reverse: true },
+  { id: "finance", section: "career", text: "I know which income and benefit questions I need to answer before making a job change.", maps: "Financial readiness" },
+  /* Future self */
+  { id: "futureclear", section: "future", text: "I can describe, in specific terms, the working life I want five years from now.", maps: "Future self clarity" },
+  { id: "behind",      section: "future", text: "My best professional years are behind me.", maps: "Self-limiting belief", reverse: true },
+  /* Learning with others (behaviors → frequency scale) */
+  { id: "asks",   section: "social", scale: "freq", text: "I ask people who do work that interests me what their work is really like.", maps: "Reconnaissance conversations" },
+  { id: "shares", section: "social", scale: "freq", text: "I talk through my career questions with peers who understand my work.", maps: "Learning with peers" },
+  { id: "solo",   section: "social", scale: "freq", text: "I keep career decisions entirely to myself until I have already decided.", maps: "Going it alone", reverse: true }
+];
+
+/* Beliefs worth testing: each is rated twice — agreement, then confidence.
+   The pairing measures calibration: a confidently held belief that shifts
+   after reconnaissance is the clearest evidence the program worked.
+   All three are common, testable beliefs the program teaches learners to
+   check against evidence (postings, conversations, real requirements). */
+const SURVEY_BELIEFS = [
+  { id: "b_hire",   text: "Most employers will not seriously consider hiring a nurse over 55.", maps: "Employers & age" },
+  { id: "b_tech",   text: "Learning new workplace software is much harder for someone my age than for younger colleagues.", maps: "Technology & age" },
+  { id: "b_school", text: "Moving away from bedside nursing requires going back to school for a new degree.", maps: "Degrees & requirements" }
 ];
 
 const SURVEY_POST_OPEN = [
