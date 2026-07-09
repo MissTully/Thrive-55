@@ -11,7 +11,7 @@ A self-contained, browser-based learning app for **The Thrive 55+ Career Directi
 | **Home** | Program overview, the three-part method, and the brand story |
 | **The Program** | The six-week cohort journey — each week anchored by a live webinar with Sue and Alyson; the week's 15 short lessons unlock after attending, with progress tracking and weekly missions |
 | **Lessons** | Big idea, learning objectives, and three interactive *pause-and-do* workbook moments (strain scoring, five strengths, one informed step) |
-| **My Workbook** | The full interactive Career Direction Workbook — answers save automatically in the browser, printable, and downloadable as a text file |
+| **My Workbook** | The full interactive Career Direction Workbook — answers save automatically in the browser, printable, and downloadable as a text file. After the kickoff webinar, the printable PDF edition of the workbook unlocks for download |
 | **Roles Explorer** | Nursing and nursing-adjacent role categories with search titles, red flags & tradeoffs, and the Concern → Question → Evidence tool |
 | **Resources** | Two program articles and the method-at-a-glance infographic |
 
@@ -32,7 +32,13 @@ assets/css/style.css  design system (brand palette, type, components)
 assets/js/data.js     all program content (curriculum, workbook, roles, articles)
 assets/js/app.js      hash router, views, localStorage persistence
 assets/img/           web-optimized program imagery
+assets/downloads/     learner downloads (workbook PDF, unlocked by kickoff attendance)
+webinars/             presenter slide decks for the live webinars
 ```
+
+## Webinar slide decks
+
+`webinars/week0-kickoff-slides.html` is the presenter deck for the one-hour Week 0 kickoff webinar (cohort building, learning goals, program structure, and discussion prompts throughout). Open it in a browser and present full-screen: arrow keys / space / click to navigate, **N** toggles presenter notes with facilitation cues, **?** shows all shortcuts, and printing gives one slide per page. Each slide carries its slot in the 60-minute run of show.
 
 Brand palette per the course design blueprint: teal `#187878`, navy `#1B3A5B`, coral `#E38E76` (accent only), warm cream backgrounds; Fraunces (headlines) + Inter (body), sized for readability at 55+.
 
