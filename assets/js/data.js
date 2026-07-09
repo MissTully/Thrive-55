@@ -5,6 +5,8 @@
    ============================================================ */
 
 const COACH_AGENT_ID = "agent_1901kx225dd5fsjtr9v1q2swdfcm";
+const COACH_NAME = "Hope";
+const COACH_IMAGE = "hope.jpg";
 
 const BRAND = {
   name: "Thrive 55+",

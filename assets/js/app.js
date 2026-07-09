@@ -347,7 +347,7 @@ function lessonView(id) {
       <div style="margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
         <button class="btn ${done ? "ghost" : ""}" onclick="toggleComplete('${id}')">${done ? "✔ Completed — mark as not done" : "Mark lesson complete"}</button>
         <a class="btn ghost" href="#/workbook">Open my workbook</a>
-        <a class="btn ghost" href="#/coach">Talk it through with my coach</a>
+        <a class="btn ghost" href="#/coach">Talk it through with Hope</a>
       </div>
 
       <div class="lesson-nav">
@@ -596,7 +596,7 @@ function workbookView() {
           ${S.nextStepBy ? `<p style="font-size:16px"><b style="color:var(--navy)">By:</b> ${esc(S.nextStepBy)}${S.nextStepLearn ? ` — expecting to learn: ${esc(S.nextStepLearn)}` : ""}</p>` : ""}
           <p class="serif" style="font-size:20px;color:var(--teal-deep);margin:18px 0 20px">You now have a way to start.</p>
           <div class="wb-actions no-print">
-            <a class="btn coral" href="#/coach">Talk it through with my coach</a>
+            <a class="btn coral" href="#/coach">Talk it through with Hope</a>
             <button class="btn" onclick="window.print()">Print / save as PDF</button>
             <button class="btn ghost" onclick="downloadWorkbook()">Download my answers (.txt)</button>
             <button class="btn ghost" onclick="resetWorkbook()">Reset workbook</button>
@@ -784,13 +784,26 @@ function coachView() {
   return `
   <section class="tight">
     <div class="wrap narrow">
-      <span class="eyebrow" style="margin-top:20px">My coach</span>
-      <h1 style="font-size:clamp(30px,4vw,42px)">Talk it through with your coach</h1>
-      <p class="lede muted" style="max-width:38em">Your coach walks the method with you — and it will ask more questions than it answers. Bring whatever is on your mind: a strain you can't name, a strength you keep dismissing, a job posting you're unsure about.</p>
+      <div class="center">
+        <span class="eyebrow" style="margin-top:20px">My coach</span>
+        <h1 style="font-size:clamp(30px,4vw,42px)">Talk it through with ${COACH_NAME}</h1>
+      </div>
+
+      <div class="hope-orb-wrap">
+        <div class="hope-glow" aria-hidden="true"></div>
+        <div class="hope-ring" aria-hidden="true"></div>
+        <img src="${img(COACH_IMAGE)}" alt="${COACH_NAME}, your Thrive 55+ coach — an experienced nurse ready to listen">
+      </div>
+      <div class="hope-caption">
+        <div class="name">${COACH_NAME}</div>
+        <div class="role">Your Thrive 55+ career direction coach</div>
+      </div>
+
+      <p class="lede muted center" style="max-width:36em;margin:18px auto 0">${COACH_NAME} walks the method with you — and she'll ask more questions than she answers. Bring whatever is on your mind: a strain you can't name, a strength you keep dismissing, a job posting you're unsure about.</p>
 
       <div class="card pad" style="margin:26px 0;border-top:6px solid var(--teal)">
         <h3 style="margin-bottom:8px">Start the conversation</h3>
-        <p class="muted" style="margin-bottom:6px">Tap the round coach button in the corner of this page. You can <b>speak</b> or <b>type</b> — whichever feels natural. Speak clearly and take your time; the coach is patient.</p>
+        <p class="muted" style="margin-bottom:6px">Tap the round button with ${COACH_NAME}'s picture in the corner of this page. You can <b>speak</b> or <b>type</b> — whichever feels natural. Take your time; ${COACH_NAME} is patient.</p>
         <p class="muted" style="font-size:15px;margin:0">If the button doesn't appear after a moment, check your internet connection and reload the page.</p>
       </div>
 
@@ -806,7 +819,7 @@ function coachView() {
           </ul>
         </div>
         <div class="card pad">
-          <h3 style="font-size:19px">What your coach won't do</h3>
+          <h3 style="font-size:19px">What ${COACH_NAME} won't do</h3>
           <ul style="margin:10px 0 0;font-size:16px">
             <li>Give financial, legal, or medical advice — income and benefits questions belong in the financial section of the class.</li>
             <li>Tell you to quit, or to stay. The decision is yours — the coach helps you make it <em>informed</em>.</li>
@@ -817,7 +830,7 @@ function coachView() {
 
       ${topScore > 5 || step ? `
       <div class="hint" style="margin-top:22px">
-        <b>From your workbook:</b> your highest strain is ${esc(top.name.toLowerCase())} (${topScore}/10)${step ? `, and your committed next step is “${esc(step)}”` : ""}. Mentioning these helps your coach pick up where you left off.
+        <b>From your workbook:</b> your highest strain is ${esc(top.name.toLowerCase())} (${topScore}/10)${step ? `, and your committed next step is “${esc(step)}”` : ""}. Mentioning these helps ${COACH_NAME} pick up where you left off.
       </div>` : ""}
 
       <p class="muted" style="font-size:14.5px;margin-top:22px">Conversations are handled by our voice partner and are not saved to your workbook. Your workbook answers stay in this browser. The conversation ends if you leave this page.</p>
@@ -832,6 +845,13 @@ function mountCoachWidget(active) {
     if (!holder.querySelector("elevenlabs-convai")) {
       const el = document.createElement("elevenlabs-convai");
       el.setAttribute("agent-id", COACH_AGENT_ID);
+      // Hope's portrait replaces the stock orb in the call widget;
+      // brand colors remain as the fallback if the image can't load.
+      const base = location.origin + location.pathname.replace(/index\.html$/, "");
+      el.setAttribute("avatar-image-url", base + "assets/img/" + COACH_IMAGE);
+      el.setAttribute("avatar-orb-color-1", "#187878");
+      el.setAttribute("avatar-orb-color-2", "#E38E76");
+      el.setAttribute("action-text", "Talk with " + COACH_NAME);
       holder.appendChild(el);
     }
   } else {

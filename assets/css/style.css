@@ -388,6 +388,51 @@ input[type="range"] {
 .site-footer a:hover { color: #fff; }
 .site-footer .fineprint { border-top: 1px solid rgba(255,255,255,.15); margin-top: 36px; padding-top: 22px; font-size: 13.5px; color: #9DB0C2; }
 
+/* ---------- Hope's glowing orb ---------- */
+.hope-orb-wrap {
+  position: relative;
+  width: min(300px, 64vw);
+  aspect-ratio: 1;
+  margin: 8px auto 20px;
+}
+.hope-glow {
+  position: absolute; inset: -13%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(24, 120, 120, .50) 30%,
+    rgba(227, 142, 118, .32) 55%,
+    rgba(24, 120, 120, 0) 72%);
+  filter: blur(20px);
+  animation: hope-pulse 3.4s ease-in-out infinite;
+}
+.hope-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    #187878, #7FC9BB, #E38E76, #F3D9CE, #7FC9BB, #187878);
+  animation: hope-spin 14s linear infinite;
+}
+.hope-ring::after {
+  /* soft inner feather so the ring melts into the glow */
+  content: ""; position: absolute; inset: -6px;
+  border-radius: 50%;
+  box-shadow: 0 0 26px rgba(24, 120, 120, .45), 0 0 60px rgba(227, 142, 118, .3);
+}
+.hope-orb-wrap img {
+  position: absolute; inset: 9px;
+  width: calc(100% - 18px); height: calc(100% - 18px);
+  object-fit: cover; border-radius: 50%;
+  border: 5px solid var(--cream);
+}
+@keyframes hope-spin { to { transform: rotate(360deg); } }
+@keyframes hope-pulse {
+  0%, 100% { transform: scale(1); opacity: .8; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+.hope-caption { text-align: center; margin-top: 2px; }
+.hope-caption .name { font-family: var(--serif); font-size: 24px; color: var(--navy); font-weight: 600; }
+.hope-caption .role { color: var(--muted); font-size: 15px; }
+
 /* ---------- Page transitions & misc ---------- */
 .fadein { animation: fi .35s ease; }
 @keyframes fi { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
