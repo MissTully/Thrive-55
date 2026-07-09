@@ -65,6 +65,7 @@ const highestStrain = () => {
 const surveyDone = kind => !!(S.surveys && S.surveys[kind] && S.surveys[kind].date);
 const weekUnlocked = wId => !!(S.webinars && S.webinars[wId]);
 const articleWeek = id => WEEKS.find(w => w.reading === id);
+const coachUnlocked = () => weekUnlocked("w0");   // Hope joins after the kickoff webinar
 function attendWebinar(wId) {
   if (!surveyDone("pre")) { location.hash = "#/survey/pre"; return; }
   S.webinars[wId] = true; save(); render();
@@ -1124,6 +1125,26 @@ function certHTML(name, dateISO, sample) {
    MY COACH (ElevenLabs conversational agent)
    ============================================================ */
 function coachView() {
+  if (!coachUnlocked()) {
+    return `
+    <section class="tight">
+      <div class="wrap narrow center" style="padding:40px 0">
+        <div class="hope-orb-wrap" style="width:min(220px,50vw);opacity:.85">
+          <div class="hope-glow" aria-hidden="true" style="animation:none;opacity:.5"></div>
+          <div class="hope-ring" aria-hidden="true" style="animation:none"></div>
+          <img src="${img(COACH_IMAGE)}" alt="${COACH_NAME}, your Thrive 55+ coach">
+        </div>
+        <span class="pill navy">🔒 Meet her at the kickoff</span>
+        <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">${COACH_NAME} joins you after your first webinar</h1>
+        <p class="lede muted" style="max-width:34em;margin:0 auto 10px">Your coach is part of the cohort experience. Attend the Week 0 kickoff webinar with Sue and Alyson, unlock the week, and ${COACH_NAME} will be here whenever you need to talk something through.</p>
+        <div style="margin-top:24px">
+          ${surveyDone("pre")
+            ? `<a class="btn big" href="#/program">Go to the program</a>`
+            : `<a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>`}
+        </div>
+      </div>
+    </section>`;
+  }
   const [top, topScore] = highestStrain();
   const step = S.nextStep !== null ? NEXT_STEPS[S.nextStep] : null;
   return `
@@ -1257,7 +1278,7 @@ function render() {
     navHTML(r.nav) +
     `<main id="main" class="fadein">${r.view(...r.args)}</main>` +
     footerHTML();
-  mountCoachWidget(r.nav === "coach");
+  mountCoachWidget(r.nav === "coach" && coachUnlocked());
 }
 
 let lastRoute = (location.hash || "#/").split("#")[1] || "/";
