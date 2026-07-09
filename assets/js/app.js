@@ -167,7 +167,7 @@ function homeView() {
           <a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>
           <a class="btn big ghost" href="#/program">Peek at the six-week journey</a>
         </div>
-        <p class="muted" style="font-size:15px;margin-top:14px;max-width:32em">Five minutes, seven questions. It's your key to the program, and at the end you'll see exactly how far you've come.</p>`}
+        <p class="muted" style="font-size:15px;margin-top:14px;max-width:32em">Seven minutes, fifteen questions. It's your key to the program, and at the end you'll see exactly how far you've come.</p>`}
       </div>
       <div class="hero-img">
         <img src="${img("hero-walking.jpg")}" alt="Two experienced nurses walking and talking outside a healthcare building">
@@ -607,7 +607,7 @@ function workbookView() {
       <div class="wrap narrow center" style="padding:48px 0">
         <span class="pill coral">🔑 One step first</span>
         <h1 style="margin-top:16px;font-size:clamp(26px,3.6vw,36px)">Your workbook opens with the starting-point survey</h1>
-        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">Five minutes, seven honest statements. It's your baseline. At the end of the program you'll answer the same questions and see exactly how far you've come. It unlocks your workbook and the weekly program materials.</p>
+        <p class="lede muted" style="max-width:36em;margin:0 auto 10px">Seven minutes, fifteen honest questions — your mindset, your career, your future self, and the beliefs worth testing. It's your baseline. At the end of the program you'll answer the same questions and see exactly how far you've come. It unlocks your workbook and the weekly program materials.</p>
         <div style="margin-top:24px"><a class="btn big coral" href="#/survey/pre">Take the survey and unlock my workbook</a></div>
       </div>
     </section>`;
@@ -1026,24 +1026,47 @@ function surveyView(kind) {
       <span class="eyebrow" style="margin-top:20px">${isPre ? "Before you begin" : "The final step"}</span>
       <h1 style="font-size:clamp(28px,4vw,40px)">${isPre ? "Where are you starting from?" : "How far have you come?"}</h1>
       <p class="lede muted" style="max-width:40em">${isPre
-        ? "Seven statements, about five minutes. Answer honestly. This is your baseline, and no answer is wrong. You'll answer the same statements at the end of the program to see what changed. Finishing unlocks your workbook and the program materials."
-        : "The same seven statements you answered at the start. Answer for how things are today, then we'll show you the before and after, and your certificate."}</p>
+        ? "Fifteen questions, about seven minutes. Answer honestly for how things are today — this is your baseline, and no answer is wrong. You'll answer the same questions at the end of the program to see what changed. Finishing unlocks your workbook and the program materials."
+        : "The same questions you answered at the start. Answer for how things are today, then we'll show you the before and after, and your certificate."}</p>
       <p class="muted" style="font-size:14.5px">Your answers stay in this browser. We never ask about your health; this is career education only.</p>
 
       <form id="surveyForm" onsubmit="return submitSurvey('${kind}')">
-        ${SURVEY_ITEMS.map((it, n) => `
-        <fieldset class="card survey-item">
-          <legend>${n + 1}. ${esc(it.text)}</legend>
+        ${(() => {
+          let n = 0;
+          const scaleRow = (id, labels) => `
           <div class="likert" role="radiogroup">
-            ${LIKERT.map((lab, i) => `
-            <label class="likert-opt ${saved[it.id] === i + 1 ? "selected" : ""}">
-              <input type="radio" name="q_${it.id}" value="${i + 1}" ${saved[it.id] === i + 1 ? "checked" : ""} required
-                onchange="S.surveys['${kind}'].answers['${it.id}']=${i + 1};save();this.closest('.likert').querySelectorAll('.likert-opt').forEach(o=>o.classList.remove('selected'));this.closest('.likert-opt').classList.add('selected')">
+            ${labels.map((lab, i) => `
+            <label class="likert-opt ${saved[id] === i + 1 ? "selected" : ""}">
+              <input type="radio" name="q_${id}" value="${i + 1}" ${saved[id] === i + 1 ? "checked" : ""} required
+                onchange="S.surveys['${kind}'].answers['${id}']=${i + 1};save();this.closest('.likert').querySelectorAll('.likert-opt').forEach(o=>o.classList.remove('selected'));this.closest('.likert-opt').classList.add('selected')">
               <span class="num">${i + 1}</span>
               <span class="lab">${lab}</span>
             </label>`).join("")}
+          </div>`;
+          const sections = SURVEY_SECTIONS.map(sec => `
+          <div style="margin:34px 0 6px">
+            <span class="eyebrow" style="margin-bottom:2px">${esc(sec.title)}</span>
+            <p class="muted" style="font-size:15px;margin-bottom:10px">${esc(sec.blurb)}</p>
           </div>
-        </fieldset>`).join("")}
+          ${SURVEY_ITEMS.filter(it => it.section === sec.id).map(it => `
+          <fieldset class="card survey-item">
+            <legend>${++n}. ${esc(it.text)}</legend>
+            ${scaleRow(it.id, it.scale === "freq" ? FREQ : LIKERT)}
+          </fieldset>`).join("")}`).join("");
+          const beliefs = `
+          <div style="margin:34px 0 6px">
+            <span class="eyebrow" style="margin-bottom:2px">Beliefs worth testing</span>
+            <p class="muted" style="font-size:15px;margin-bottom:10px">For each statement, rate how much you agree — and then how confident you are in that answer. There are no right answers here; the program will give you ways to test each one against real evidence.</p>
+          </div>
+          ${SURVEY_BELIEFS.map(b => `
+          <fieldset class="card survey-item">
+            <legend>${++n}. ${esc(b.text)}</legend>
+            ${scaleRow(b.id, LIKERT)}
+            <p style="font-weight:600;color:var(--navy);font-size:15.5px;margin:14px 0 6px">…and how confident are you in that answer?</p>
+            ${scaleRow(b.id + "_c", CONF)}
+          </fieldset>`).join("")}`;
+          return sections + beliefs;
+        })()}
 
         ${!isPre ? `
         <fieldset class="card survey-item">
@@ -1075,7 +1098,8 @@ function surveyView(kind) {
 
 function submitSurvey(kind) {
   const answers = S.surveys[kind].answers || {};
-  const missing = SURVEY_ITEMS.filter(it => !answers[it.id]);
+  const missing = SURVEY_ITEMS.filter(it => !answers[it.id])
+    .concat(SURVEY_BELIEFS.filter(b => !answers[b.id] || !answers[b.id + "_c"]));
   const needRec = kind === "post" && S.surveys.post.recommend === null;
   if (missing.length || needRec) {
     const w = document.getElementById("surveyWarn");
@@ -1093,12 +1117,26 @@ function submitSurvey(kind) {
    ============================================================ */
 function resultsHTML() {
   const pre = S.surveys.pre.answers, post = S.surveys.post.answers;
-  const rows = SURVEY_ITEMS.map(it => {
-    let a = pre[it.id], b = post[it.id];
-    if (it.reverse) { a = 6 - a; b = 6 - b; }   // reverse-scored: higher = better
-    const delta = b - a;
-    const arrow = delta > 0 ? `<b style="color:var(--teal-deep)">▲ +${delta}</b>` : delta < 0 ? `<b style="color:var(--coral-dark)">▼ ${delta}</b>` : `<span class="muted">no change</span>`;
-    return `<tr><td style="white-space:normal;font-weight:600;color:var(--navy)">${esc(it.maps)}</td><td>${a}/5</td><td>${b}/5</td><td>${arrow}</td></tr>`;
+  const rows = SURVEY_SECTIONS.map(sec => {
+    const secRows = SURVEY_ITEMS.filter(it => it.section === sec.id).map(it => {
+      let a = pre[it.id], b = post[it.id];
+      if (it.reverse) { a = 6 - a; b = 6 - b; }   // reverse-scored: higher = better
+      const delta = b - a;
+      const arrow = delta > 0 ? `<b style="color:var(--teal-deep)">▲ +${delta}</b>` : delta < 0 ? `<b style="color:var(--coral-dark)">▼ ${delta}</b>` : `<span class="muted">no change</span>`;
+      return `<tr><td style="white-space:normal;font-weight:600;color:var(--navy)">${esc(it.maps)}</td><td>${a}/5</td><td>${b}/5</td><td>${arrow}</td></tr>`;
+    }).join("");
+    return `<tr><td colspan="4" style="background:var(--teal-tint);font-weight:700;color:var(--teal-deep);font-size:14px;letter-spacing:.06em;text-transform:uppercase">${esc(sec.title)}</td></tr>${secRows}`;
+  }).join("");
+  const beliefRows = SURVEY_BELIEFS.map(b => {
+    const a1 = pre[b.id], b1 = post[b.id];                 // agreement, 1–5
+    const ac = pre[b.id + "_c"], bc = post[b.id + "_c"];   // confidence, 1–5
+    const moved = b1 < a1 ? `<b style="color:var(--teal-deep)">▼ loosened</b>` : b1 > a1 ? `<b style="color:var(--coral-dark)">▲ hardened</b>` : `<span class="muted">held steady</span>`;
+    return `<tr>
+      <td style="white-space:normal;font-weight:600;color:var(--navy)">${esc(b.maps)}</td>
+      <td style="white-space:normal">${esc(LIKERT[a1 - 1])}<br><span class="muted" style="font-size:13px">${esc(CONF[ac - 1])}</span></td>
+      <td style="white-space:normal">${esc(LIKERT[b1 - 1])}<br><span class="muted" style="font-size:13px">${esc(CONF[bc - 1])}</span></td>
+      <td>${moved}</td>
+    </tr>`;
   }).join("");
   const avg = arr => arr.reduce((s, x) => s + x, 0) / arr.length;
   const preAvg = avg(SURVEY_ITEMS.map(it => it.reverse ? 6 - pre[it.id] : pre[it.id]));
@@ -1107,12 +1145,18 @@ function resultsHTML() {
   <div class="card pad" style="margin-bottom:30px">
     <span class="eyebrow">Your outcomes</span>
     <h2 style="font-size:26px">Before and after</h2>
-    <p class="muted">Your self-assessment across the program's objectives (higher is better; the fear item is scored so that less fear-driven = higher).</p>
+    <p class="muted">Your self-assessment across mindset, career clarity, your future self, and learning with others (higher is better; reverse-worded items are scored so that higher always means stronger).</p>
     <table class="guide-table">
       <thead><tr><th>Area</th><th>Before</th><th>After</th><th>Change</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div class="hint" style="margin-top:16px">Overall: <b>${preAvg.toFixed(1)} → ${postAvg.toFixed(1)} out of 5</b>${postAvg > preAvg ? ". That movement is yours. You earned it." : ""}</div>
+    <h3 style="margin-top:26px">Beliefs you put to the test</h3>
+    <p class="muted" style="font-size:15px">You rated each belief twice — agreement, and how confident you were. A confidently held belief that loosened after real reconnaissance is the clearest sign of the method working: evidence, not fear, is doing the deciding now.</p>
+    <table class="guide-table">
+      <thead><tr><th>Belief</th><th>Before</th><th>After</th><th>Change</th></tr></thead>
+      <tbody>${beliefRows}</tbody>
+    </table>
   </div>`;
 }
 
