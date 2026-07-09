@@ -141,7 +141,7 @@ function homeView() {
       <div>
         <span class="pill coral">For nurses 55+ · Cohort program · Live weekly webinars</span>
         <h1>You're not done.<br>You're just <em style="color:var(--teal);font-style:normal">evolving</em>.</h1>
-        <p class="lede">A six-week journey you take <b>with a cohort of nurses like you</b>, built around live weekly webinars with Sue and Alyson. Learn together, share what you find, and turn the dread of the next shift into your next informed step.</p>
+        <p class="lede">You still love nursing. You also dread the next shift. Both can be true, and there's a name for what you're feeling. In six weeks, with a cohort of nurses like you and live weekly webinars with Sue and Alyson, you'll find it and decide what comes next on your terms.</p>
         ${surveyDone("pre") ? `
         <div class="hero-ctas">
           <a class="btn big" href="#/program">${pct > 0 ? "Continue the program" : "Go to the program"}</a>
@@ -149,16 +149,9 @@ function homeView() {
         </div>` : `
         <div class="hero-ctas">
           <a class="btn big coral" href="#/survey/pre">🔑 Take the starting-point survey</a>
-          <a class="btn big ghost" href="#/program">See the six-week journey</a>
+          <a class="btn big ghost" href="#/program">Peek at the six-week journey</a>
         </div>
-        <p class="muted" style="font-size:15px;margin-top:14px;max-width:32em">The five-minute survey is your key: it captures where you're starting from and unlocks the program materials and your workbook.</p>`}
-        ${pct > 0 ? `
-        <div style="margin-top:26px;max-width:420px">
-          <div style="display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:6px">
-            <span class="muted">Your progress</span><b style="color:var(--teal-deep)">${pct}% · ${doneCount()} of ${allLessonIds.length} lessons</b>
-          </div>
-          <div class="progress-track"><span style="width:${pct}%"></span></div>
-        </div>` : ""}
+        <p class="muted" style="font-size:15px;margin-top:14px;max-width:32em">Five minutes, seven questions. It's your key to the program, and at the end you'll see exactly how far you've come.</p>`}
       </div>
       <div class="hero-img">
         <img src="${img("hero-walking.jpg")}" alt="Two experienced nurses walking and talking outside a healthcare building">
@@ -170,18 +163,26 @@ function homeView() {
   <section class="tinted">
     <div class="wrap">
       <div class="center" style="max-width:720px;margin:0 auto 40px">
-        <span class="eyebrow">The method</span>
-        <h2>Three questions before any job title</h2>
-        <p class="muted">The method does not tell you which job to choose. It helps you make a better decision <em>before</em> you choose.</p>
+        <span class="eyebrow">Inside the program</span>
+        <h2>One method. Three questions. Six weeks.</h2>
+        <p class="muted">The answers are yours to find. The method shows you where to look.</p>
       </div>
       <div class="grid cols-3">
-        ${METHOD.map(m => `
         <div class="card pillar">
-          <div class="num" aria-hidden="true">${m.num}</div>
-          <h3>${esc(m.title)}</h3>
-          <div class="q">${esc(m.question)}</div>
-          <p>${esc(m.body)}</p>
-        </div>`).join("")}
+          <div class="num" aria-hidden="true">1</div>
+          <div class="q" style="font-size:19px;font-family:var(--serif);color:var(--navy)">What is wearing you down?</div>
+          <p>It's not that you're done. It's something more specific, and it has a name. Naming it is the first thing your cohort does together.</p>
+        </div>
+        <div class="card pillar">
+          <div class="num" aria-hidden="true">2</div>
+          <div class="q" style="font-size:19px;font-family:var(--serif);color:var(--navy)">What do you bring with you?</div>
+          <p>More than you think. The skills you've been writing off as "just the job" are the ones employers can't teach and AI can't touch.</p>
+        </div>
+        <div class="card pillar">
+          <div class="num" aria-hidden="true">3</div>
+          <div class="q" style="font-size:19px;font-family:var(--serif);color:var(--navy)">What comes next?</div>
+          <p>There's a way to find out without applying for a single job, and without betting your income on a guess. We'll show you how.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -190,11 +191,11 @@ function homeView() {
     <div class="wrap">
       <div class="feature-row">
         <div>
-          <span class="eyebrow">Why this works</span>
-          <h2>Career direction doesn't start with a job title</h2>
-          <p>It starts by learning how to <b>read the work</b>. You're not asking whether you still love nursing. You do. The harder question is whether your body and mind can keep carrying <em>this version</em> of the work until retirement.</p>
-          <p>You still have experience, judgment, value, and income needs. You just need a way of working that no longer leaves you dreading the next shift before the current one is over.</p>
-          <a class="btn" href="#/lesson/v01">Start with lesson one</a>
+          <span class="eyebrow">Sound familiar?</span>
+          <h2>Thirty years of skill. One growing question.</h2>
+          <p>Your judgment has never been sharper. Your body keeps a different score. The call lights, the lifting, one more new charting system, and somewhere in there a quiet voice asking: <em>how long can I keep doing it this way?</em></p>
+          <p>Most nurses carry that question alone, as dread. In this program you'll carry it with a cohort, and you'll put it down changed: named, measured, and turned into a plan.</p>
+          <a class="btn coral" href="#/survey/pre">Start with the five-minute survey</a>
         </div>
         <div class="feature-img"><img src="${img("workshop.jpg")}" alt="Experienced nurses in a supportive workshop discussion"></div>
       </div>
@@ -203,22 +204,10 @@ function homeView() {
         <div class="feature-img"><img src="${img("discussion.jpg")}" alt="Experienced nurses in a warm group discussion"></div>
         <div>
           <span class="eyebrow">A cohort, not a course library</span>
-          <h2>You don't walk this alone</h2>
-          <p>Every week begins <b>live</b>: a webinar with Sue and Alyson where your cohort learns together, asks the questions out loud, and shares what the week's reconnaissance turned up. Only after the webinar does that week's content open in the app, because the conversation is the class, and the lessons are how you keep it going all week.</p>
-          <p><b>Learn</b> at the webinar and in the short lessons. <b>Do</b> the week's mission in your workbook. <b>Share</b> what you found with your cohort, and hear what everyone else is finding, too.</p>
-          <a class="btn" href="#/program">See the six-week journey</a>
+          <h2>You won't do this alone</h2>
+          <p>Every week starts live: a webinar with Sue and Alyson and a room full of nurses who get it, because they're standing where you're standing. You'll laugh, compare notes, and hear what everyone else is finding out there.</p>
+          <p>Each week's materials open after your cohort meets, so everyone walks the same road together, one week at a time.</p>
         </div>
-      </div>
-
-      <div class="feature-row">
-        <div>
-          <span class="eyebrow">Reconnaissance, not job hunting</span>
-          <h2>Turn fear into information</h2>
-          <p>Fear alone does not give you good information. Reconnaissance does. Study the work through job postings (no applying yet). Ask three people who know the work. Compare what you learn against your strain, your value, and the income you still need.</p>
-          <p>A red flag doesn't mean no. It means <b>look closer before you leap</b>.</p>
-          <a class="btn ghost" href="#/roles">Explore role categories</a>
-        </div>
-        <div class="feature-img"><img src="${img("water-stones.jpg")}" alt="Calm water flowing around stepping stones, finding a path"></div>
       </div>
     </div>
   </section>
@@ -229,15 +218,30 @@ function homeView() {
         <div class="card stat"><div class="n">6</div><div class="l">live weekly webinars with Sue &amp; Alyson</div></div>
         <div class="card stat"><div class="n">15</div><div class="l">short lessons, none over 8 minutes</div></div>
         <div class="card stat"><div class="n">1</div><div class="l">cohort walking beside you</div></div>
-        <div class="card stat"><div class="n">1</div><div class="l">informed next step, chosen by you</div></div>
+        <div class="card stat"><div class="n">1</div><div class="l">coach named Hope, whenever you need her</div></div>
       </div>
     </div>
   </section>
 
   <section>
-    <div class="wrap center">
-      <p class="bigquote">“The highest score does not tell you to panic. <em>It tells you where to look first.</em>”</p>
-      <p class="quote-attr">${esc(BRAND.founder)} · ${esc(BRAND.founderTitle)}</p>
+    <div class="wrap">
+      <div class="grid cols-2" style="align-items:center;gap:48px">
+        <div>
+          <span class="eyebrow">What you'll walk away with</span>
+          <h2>Six weeks from now, you'll have…</h2>
+          <ul style="font-size:17px;line-height:1.7">
+            <li>A clear, honest read on what's really wearing you down (it's probably not what you think)</li>
+            <li>A named list of strengths you've been dismissing for years</li>
+            <li>A shortlist of directions worth investigating, built from real information, not fear</li>
+            <li>One committed next step, with a date on it</li>
+            <li>Your before-and-after results, and a certificate worth hanging on the wall</li>
+          </ul>
+        </div>
+        <div class="center">
+          <p class="bigquote" style="font-size:clamp(22px,2.6vw,28px)">"The highest score does not tell you to panic. <em>It tells you where to look first.</em>"</p>
+          <p class="quote-attr">${esc(BRAND.founder)} · ${esc(BRAND.founderTitle)}</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -246,9 +250,9 @@ function homeView() {
       <div class="photo-band">
         <img src="${img("bridge.jpg")}" alt="Two women crossing a bridge together, symbolizing career transition">
         <div class="overlay"><div class="overlay-inner">
-          <h2>Walk the bridge with a method beside you</h2>
-          <p>Six weeks. One repeatable method. A workbook that saves your answers as you go, then hands you off to the financial side of the decision when you're ready.</p>
-          <a class="btn coral" href="#/program">See the six weeks</a>
+          <h2>Your next chapter is a bridge, not a cliff</h2>
+          <p>Six weeks. A cohort beside you. Sue and Alyson up front. And you, walking across at your own pace.</p>
+          <a class="btn coral" href="${surveyDone("pre") ? "#/program" : "#/survey/pre"}">${surveyDone("pre") ? "Go to the program" : "Take the first step"}</a>
         </div></div>
       </div>
     </div>
@@ -257,8 +261,8 @@ function homeView() {
   <section>
     <div class="wrap">
       <div class="center" style="max-width:680px;margin:0 auto 36px">
-        <span class="eyebrow">From the Thrive 55+ library</span>
-        <h2>Read while you decide</h2>
+        <span class="eyebrow">Free reads while you decide</span>
+        <h2>Not ready yet? Start here.</h2>
       </div>
       <div class="grid cols-2">
         ${ARTICLES.map(a => `
